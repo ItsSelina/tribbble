@@ -1,7 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="32dp">
+
+        <ImageView
+            android:id="@+id/imageview_shot"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            tools:src="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/textview_shot_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageview_shot"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18dp"
+            tools:text="Nike Store"/>
+
+        <TextView
+            android:id="@+id/textview_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textview_shot_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="24dp"
+            tools:text="By Balraj Chana"/>
+
+        <TextView
+            android:id="@+id/textview_views"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textview_user"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="26dp"
+            android:layout_marginRight="26dp"
+            android:drawableLeft="@drawable/ic_views"
+            android:drawablePadding="4dp"
+            android:drawableTint="@color/colorPrimary"
+            android:gravity="center"
+            tools:text="1599"/>
+
+        <TextView
+            android:id="@+id/textview_likes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textview_user"
+            android:layout_toLeftOf="@id/textview_views"
+            android:drawableLeft="@drawable/ic_likes"
+            android:drawablePadding="4dp"
+            android:drawableTint="@color/colorPrimary"
+            android:gravity="center"
+            tools:text="1599"/>
+
+        <TextView
+            android:id="@+id/textview_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textview_user"
+            android:layout_toRightOf="@id/textview_views"
+            android:drawableLeft="@drawable/ic_comment"
+            android:drawablePadding="4dp"
+            android:drawableTint="@color/colorPrimary"
+            android:gravity="center"
+            tools:text="1599"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

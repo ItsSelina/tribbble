@@ -1,5 +1,22 @@
 package me.selinali.tribble.model;
 
-public class Shot {
+import lombok.Getter;
 
+public class Shot {
+  @Getter private int id;
+  @Getter private String title;
+  @Getter private String description;
+  @Getter private int width;
+  @Getter private int height;
+  @Getter private Images images;
+  @Getter private int viewsCount;
+  @Getter private int likesCount;
+  @Getter private int commentsCount;
+  @Getter private User user;
+
+  public class Images {
+    @Getter private String hidpi;
+    @Getter private String teaser;
+    @Getter private String normal;
+  }
 }
