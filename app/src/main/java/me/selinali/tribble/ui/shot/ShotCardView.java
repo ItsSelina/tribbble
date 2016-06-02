@@ -1,7 +1,9 @@
-package me.selinali.tribble;
+package me.selinali.tribble.ui.shot;
 
 import android.content.Context;
 import android.widget.FrameLayout;
+
+import me.selinali.tribble.R;
 
 public class ShotCardView extends FrameLayout {
 
@@ -10,5 +12,5 @@ public class ShotCardView extends FrameLayout {
     inflate(context, R.layout.shot_card_view, this);
   }
 
-  
+
 }
