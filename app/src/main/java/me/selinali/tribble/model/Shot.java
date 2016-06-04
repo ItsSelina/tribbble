@@ -1,5 +1,7 @@
 package me.selinali.tribble.model;
 
+import java.util.Date;
+
 import lombok.Getter;
 
 public class Shot {
@@ -13,6 +15,7 @@ public class Shot {
   @Getter private int likesCount;
   @Getter private int commentsCount;
   @Getter private User user;
+  @Getter private Date createdAt;
 
   public class Images {
     @Getter private String hidpi;

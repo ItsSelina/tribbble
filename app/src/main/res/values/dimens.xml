@@ -1,4 +1,7 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="bottom_bar_height">54dp</dimen>
+    <dimen name="bottom_bar_height_with_margin">80dp</dimen>
 </resources>

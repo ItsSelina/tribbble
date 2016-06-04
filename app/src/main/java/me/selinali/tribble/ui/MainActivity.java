@@ -42,16 +42,24 @@ public class MainActivity extends AppCompatActivity {
 
     swapFragment(mFragments[INDEX_DECK]);
 
-    RxView.clicks(mDeckButton).debounce(2, TimeUnit.SECONDS)
+    RxView.clicks(mDeckButton).debounce(200, TimeUnit.MILLISECONDS)
         .subscribe(click -> swapFragment(mFragments[INDEX_DECK]));
 
-    RxView.clicks(mArchiveButton).debounce(2, TimeUnit.SECONDS)
+    RxView.clicks(mArchiveButton).debounce(200, TimeUnit.MILLISECONDS)
         .subscribe(click -> swapFragment(mFragments[INDEX_ARCHIVE]));
 
     mSubscription = Dribble.instance().getShots()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(this::bindShots, throwable -> {throwable.printStackTrace();});
+        .subscribe(this::bindShots, Throwable::printStackTrace);
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    if (mSubscription != null && !mSubscription.isUnsubscribed()) {
+      mSubscription.unsubscribe();
+    }
   }
 
   private void bindShots(List<Shot> shots) {
