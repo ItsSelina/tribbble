@@ -33,8 +33,8 @@ public class ShotCardView extends FrameLayout implements Binder<Shot> {
     Picasso.with(getContext()).load(shot.getImages().getNormal()).into(mShotImageView);
     mShotNameTextView.setText(shot.getTitle());
     mUserTextView.setText(shot.getUser().getName());
-    mLikesTextView.setText(shot.getLikesCount());
-    mViewsTextView.setText(shot.getViewsCount());
-    mCommentsTextView.setText(shot.getCommentsCount());
+    mLikesTextView.setText(String.valueOf(shot.getLikesCount()));
+    mViewsTextView.setText(String.valueOf(shot.getViewsCount()));
+    mCommentsTextView.setText(String.valueOf(shot.getCommentsCount()));
   }
 }

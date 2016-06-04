@@ -6,16 +6,19 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
+import me.selinali.tribble.BuildConfig;
 import me.selinali.tribble.model.Shot;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import rx.Observable;
+import rx.Single;
 
 public class Dribble {
 
-  public static volatile Dribble sInstance;
+  private static volatile Dribble sInstance;
 
   public static Dribble instance() {
     return sInstance == null ? sInstance = new Dribble() : sInstance;
@@ -31,12 +34,17 @@ public class Dribble {
         .baseUrl("https://api.dribbble.com/v1/")
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(mGson))
+        .client(new OkHttpClient.Builder().addInterceptor(chain ->
+                chain.proceed(chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer " + BuildConfig.DRIBBBLE_ACCESS_KEY)
+                    .build())
+        ).build())
         .build()
         .create(Endpoints.class);
   }
 
-  public Observable<List<Shot>> getShots() {
-    return mEndpoints.getShots();
+  public Single<List<Shot>> getShots() {
+    return mEndpoints.getShots().toSingle();
   }
 
   private interface Endpoints {
