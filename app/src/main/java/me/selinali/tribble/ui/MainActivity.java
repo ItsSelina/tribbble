@@ -2,13 +2,17 @@ package me.selinali.tribble.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
 import com.jakewharton.rxbinding.view.RxView;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,14 +26,20 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
-  private static final int INDEX_DECK = 0;
-  private static final int INDEX_ARCHIVE = 1;
+  private static final String TAG_DECK_FRAGMENT = "TAG_DECK_FRAGMENT";
+  private static final String TAG_ARCHIVE_FRAGMENT = "TAG_ARCHIVE_FRAGMENT";
 
   @BindView(R.id.button_deck) View mDeckButton;
   @BindView(R.id.button_archive) View mArchiveButton;
+  @BindView(R.id.container) View mContainer;
 
-  private Fragment[] mFragments = new Fragment[2];
+  private final Map<String, Fragment> mFragments = new HashMap<>(2);
+  private final Animation mAnimation = new AlphaAnimation(0, 1);
   private Subscription mSubscription;
+
+  {
+    mAnimation.setDuration(200);
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +47,13 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
 
-    mFragments[INDEX_DECK] = DeckFragment.newInstance();
-    mFragments[INDEX_ARCHIVE] = ArchiveFragment.newInstance();
+    mFragments.put(TAG_DECK_FRAGMENT, DeckFragment.newInstance());
+    mFragments.put(TAG_ARCHIVE_FRAGMENT, ArchiveFragment.newInstance());
 
-    swapFragment(mFragments[INDEX_DECK]);
+    swapFragment(TAG_DECK_FRAGMENT, true);
 
-    RxView.clicks(mDeckButton).debounce(200, TimeUnit.MILLISECONDS)
-        .subscribe(click -> swapFragment(mFragments[INDEX_DECK]));
-
-    RxView.clicks(mArchiveButton).debounce(200, TimeUnit.MILLISECONDS)
-        .subscribe(click -> swapFragment(mFragments[INDEX_ARCHIVE]));
+    RxView.clicks(mDeckButton).subscribe(click -> swapFragment(TAG_DECK_FRAGMENT, true));
+    RxView.clicks(mArchiveButton).subscribe(click -> swapFragment(TAG_ARCHIVE_FRAGMENT, true));
 
     mSubscription = Dribble.instance().getShots()
         .subscribeOn(Schedulers.io())
@@ -63,13 +70,30 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void bindShots(List<Shot> shots) {
-    ((DeckFragment) mFragments[INDEX_DECK]).bind(shots);
+    ((DeckFragment) mFragments.get(TAG_DECK_FRAGMENT)).bind(shots);
   }
 
-  private void swapFragment(Fragment fragment) {
-    getSupportFragmentManager().beginTransaction()
-        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-        .replace(R.id.container, fragment)
-        .commit();
+  private void swapFragment(String tag, boolean animate) {
+    if (animate) {
+      mContainer.setAnimation(mAnimation);
+      mAnimation.start();
+    }
+
+    FragmentManager manager = getSupportFragmentManager();
+    String otherTag = tag.equals(TAG_DECK_FRAGMENT) ? TAG_ARCHIVE_FRAGMENT : TAG_DECK_FRAGMENT;
+    if (manager.findFragmentByTag(tag) != null) {
+      manager.beginTransaction()
+          .show(manager.findFragmentByTag(tag))
+          .commit();
+    } else {
+      manager.beginTransaction()
+          .add(R.id.container, mFragments.get(tag), tag)
+          .commit();
+    }
+    if (manager.findFragmentByTag(otherTag) != null) {
+      manager.beginTransaction()
+          .hide(manager.findFragmentByTag(otherTag))
+          .commit();
+    }
   }
 }
