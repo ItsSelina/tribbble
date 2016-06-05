@@ -36,5 +36,4 @@ public class DeckAdapter extends ArrayAdapter<Shot> {
     viewHolder.view.bind(shot);
     return view;
   }
-
 }

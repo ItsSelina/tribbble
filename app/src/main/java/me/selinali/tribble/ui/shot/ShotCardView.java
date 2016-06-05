@@ -13,9 +13,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribble.R;
 import me.selinali.tribble.model.Shot;
-import me.selinali.tribble.ui.Binder;
+import me.selinali.tribble.ui.Bindable;
 
-public class ShotCardView extends CardView implements Binder<Shot> {
+public class ShotCardView extends CardView implements Bindable<Shot> {
 
   @BindView(R.id.imageview_shot) ImageView mShotImageView;
   @BindView(R.id.textview_shot_name) TextView mShotNameTextView;

@@ -13,6 +13,8 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 import rx.Single;
 
@@ -43,12 +45,19 @@ public class Dribble {
         .create(Endpoints.class);
   }
 
-  public Single<List<Shot>> getShots() {
-    return mEndpoints.getShots().toSingle();
+  public Single<List<Shot>> getShots(int page) {
+    return mEndpoints.getShots(page).toSingle();
+  }
+
+  public Observable<Shot> getShot(int id) {
+    return mEndpoints.getShot(id);
   }
 
   private interface Endpoints {
     @GET("shots")
-    Observable<List<Shot>> getShots();
+    Observable<List<Shot>> getShots(@Query("page") int page);
+
+    @GET("shots/{id}")
+    Observable<Shot> getShot(@Path("id") int id);
   }
 }
