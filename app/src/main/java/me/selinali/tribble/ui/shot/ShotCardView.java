@@ -33,7 +33,7 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
 
   @Override
   public void bind(Shot shot) {
-    Picasso.with(getContext()).load(shot.getImages().getNormal()).into(mShotImageView);
+    Picasso.with(getContext()).load(shot.getImages().getImage()).into(mShotImageView);
     mShotNameTextView.setText(shot.getTitle());
     mUserTextView.setText(shot.getUser().getName());
     mDateTextView.setText(DateFormat.getDateInstance().format(shot.getCreatedAt()));

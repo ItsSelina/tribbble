@@ -21,5 +21,9 @@ public class Shot {
     @Getter private String hidpi;
     @Getter private String teaser;
     @Getter private String normal;
+
+    public String getImage() {
+      return hidpi == null? normal : hidpi;
+    }
   }
 }

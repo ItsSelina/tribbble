@@ -15,12 +15,8 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.selinali.tribble.ArchiveManager;
 import me.selinali.tribble.R;
-import me.selinali.tribble.api.Dribble;
 import me.selinali.tribble.model.Shot;
 import me.selinali.tribble.ui.archive.ArchiveAdapter;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
 
@@ -43,16 +39,13 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_archive, container, false);
     mUnbinder = ButterKnife.bind(this, view);
-    Observable.from(ArchiveManager.instance().getArchivedShotIds())
-        .map(Integer::parseInt)
-        .flatMap(id -> Dribble.instance().getShot(id))
-        .toList()
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(this::bind, throwable -> {
-          throwable.printStackTrace();
-        });
     return view;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    bind(ArchiveManager.instance().getArchivedShots());
   }
 
   @Override
@@ -63,7 +56,8 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
 
   @Override
   public void bind(List<Shot> shots) {
-    mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+    RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
+    mRecyclerView.setLayoutManager(manager);
     mRecyclerView.setAdapter(new ArchiveAdapter(shots));
   }
 }

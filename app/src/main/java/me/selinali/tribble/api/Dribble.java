@@ -16,7 +16,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
-import rx.Single;
 
 public class Dribble {
 
@@ -45,8 +44,8 @@ public class Dribble {
         .create(Endpoints.class);
   }
 
-  public Single<List<Shot>> getShots(int page) {
-    return mEndpoints.getShots(page).toSingle();
+  public Observable<List<Shot>> getShots(int page) {
+    return mEndpoints.getShots(page);
   }
 
   public Observable<Shot> getShot(int id) {

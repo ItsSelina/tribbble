@@ -1,14 +1,14 @@
 package me.selinali.tribble;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import me.selinali.tribble.model.Shot;
 
@@ -20,40 +20,47 @@ public class ArchiveManager {
     return sInstance == null ? sInstance = new ArchiveManager() : sInstance;
   }
 
-  private static final String KEY_ARCHIVED_ID_SET = "archived_ids." + BuildConfig.VERSION_CODE;
-  private static final String KEY_DISCARDED_ID_SET = "discarded_ids." + BuildConfig.VERSION_CODE;
+  private static final String ARCHIVED_PREF = "ARCHIVED" + BuildConfig.VERSION_CODE;
+  private static final String DISCARDED_PREF = "DISCARDED" + BuildConfig.VERSION_CODE;
 
-  private final SharedPreferences mPreferences;
-
-  private Set<String> mArchived, mDiscarded;
+  private final SharedPreferences mArchivedPreferences;
+  private final SharedPreferences mDiscardedPreferences;
+  private final Gson mGson;
 
   private ArchiveManager() {
-    mPreferences = PreferenceManager.getDefaultSharedPreferences(TribbleApp.context());
-    mArchived = new HashSet<>(mPreferences.getStringSet(KEY_ARCHIVED_ID_SET, Collections.emptySet()));
-    mDiscarded = new HashSet<>(mPreferences.getStringSet(KEY_DISCARDED_ID_SET, Collections.emptySet()));
+    mArchivedPreferences = TribbleApp.context().getSharedPreferences(ARCHIVED_PREF, Context.MODE_PRIVATE);
+    mDiscardedPreferences = TribbleApp.context().getSharedPreferences(DISCARDED_PREF, Context.MODE_PRIVATE);
+    mGson = new Gson();
   }
 
   @SuppressLint("CommitPrefEdits")
   public void archive(Shot shot) {
-    mArchived.add(String.valueOf(shot.getId()));
-    mPreferences.edit().putStringSet(KEY_ARCHIVED_ID_SET, mArchived).commit();
+    mArchivedPreferences.edit()
+        .putString(String.valueOf(shot.getId()), mGson.toJson(shot))
+        .commit();
   }
 
   public boolean isArchived(Shot shot) {
-    return mArchived.contains(String.valueOf(shot.getId()));
+    return mArchivedPreferences.contains(String.valueOf(shot.getId()));
   }
 
-  public List<String> getArchivedShotIds() {
-    return new ArrayList<>(mArchived);
+  public List<Shot> getArchivedShots() {
+    List<Shot> shots = new ArrayList<>();
+    Map<String, ?> shotMap = mArchivedPreferences.getAll();
+    for (Map.Entry<String, ?> shot : shotMap.entrySet()) {
+      shots.add(mGson.fromJson(String.valueOf(shot.getValue()), Shot.class));
+    }
+    return shots;
   }
 
   @SuppressLint("CommitPrefEdits")
   public void discard(Shot shot) {
-    mDiscarded.add(String.valueOf(shot.getId()));
-    mPreferences.edit().putStringSet(KEY_DISCARDED_ID_SET, mDiscarded).commit();
+    mDiscardedPreferences.edit()
+        .putString(String.valueOf(shot.getId()), mGson.toJson(shot))
+        .commit();
   }
 
   public boolean isDiscarded(Shot shot) {
-    return mDiscarded.contains(String.valueOf(shot.getId()));
+    return mDiscardedPreferences.contains(String.valueOf(shot.getId()));
   }
 }

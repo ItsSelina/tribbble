@@ -8,6 +8,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import me.selinali.tribble.R;
 import me.selinali.tribble.model.Shot;
 
 public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotViewHolder> {
@@ -21,14 +22,17 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
   @Override
   public ShotViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     ImageView imageView = new ImageView(parent.getContext());
+    imageView.setAdjustViewBounds(true);
     return new ShotViewHolder(imageView);
   }
 
   @Override
   public void onBindViewHolder(ShotViewHolder holder, int position) {
-    Picasso.with(holder.itemView.getContext())
+    ImageView view = ((ImageView) holder.itemView);
+    Picasso.with(view.getContext())
         .load(mShots.get(position).getImages().getNormal())
-        .into((ImageView) holder.itemView);
+        .placeholder(R.drawable.grid_item_placeholder)
+        .into(view);
   }
 
   @Override

@@ -15,14 +15,13 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.selinali.tribble.ArchiveManager;
 import me.selinali.tribble.R;
+import me.selinali.tribble._;
 import me.selinali.tribble.api.Dribble;
 import me.selinali.tribble.model.Shot;
 import me.selinali.tribble.ui.Bindable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static me.selinali.tribble.TribbleApp.unsubscribe;
 
 public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
@@ -59,7 +58,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   };
 
   private void loadNext() {
-    unsubscribe(mSubscription);
+    _.unsubscribe(mSubscription);
     mSubscription = Dribble.instance().getShots(mCurrentPage)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
@@ -83,7 +82,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   public void onDestroyView() {
     super.onDestroyView();
     mUnbinder.unbind();
-    unsubscribe(mSubscription);
+    _.unsubscribe(mSubscription);
   }
 
   @Override
