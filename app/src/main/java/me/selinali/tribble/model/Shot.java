@@ -16,13 +16,14 @@ public class Shot {
   @Getter private int commentsCount;
   @Getter private User user;
   @Getter private Date createdAt;
+  @Getter private boolean animated;
 
   public class Images {
     @Getter private String hidpi;
     @Getter private String teaser;
     @Getter private String normal;
 
-    public String getImage() {
+    public String getHighResImage() {
       return hidpi == null? normal : hidpi;
     }
   }

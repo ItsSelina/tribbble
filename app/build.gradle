@@ -56,7 +56,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile 'com.koushikdutta.ion:ion:2.1.7'
-    
+
     compile 'com.github.wenchaojiang:AndroidSwipeableCardStack:0.1.4'
 
     compile 'io.reactivex:rxandroid:1.2.0'

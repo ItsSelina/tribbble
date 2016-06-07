@@ -4,20 +4,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.builder.AnimateGifMode;
-
 import java.util.List;
 
-import me.selinali.tribble.R;
+import me.selinali.tribble.data.IonLoader;
+import me.selinali.tribble.data.PicassoLoader;
 import me.selinali.tribble.model.Shot;
 
 public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotViewHolder> {
 
+  private final PicassoLoader mPicassoLoader;
+  private final IonLoader mIonLoader;
   private List<Shot> mShots;
 
   public ArchiveAdapter(List<Shot> shots) {
     mShots = shots;
+    mPicassoLoader = new PicassoLoader();
+    mIonLoader = new IonLoader();
   }
 
   @Override
@@ -30,10 +32,9 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
   @Override
   public void onBindViewHolder(ShotViewHolder holder, int position) {
     ImageView view = (ImageView) holder.itemView;
-    Ion.with(view)
-        .animateGif(AnimateGifMode.ANIMATE)
-        .placeholder(R.drawable.grid_item_placeholder)
-        .load(mShots.get(position).getImages().getImage());
+    Shot shot = mShots.get(position);
+    (shot.isAnimated() ? mIonLoader : mPicassoLoader)
+        .load(shot.getImages().getHighResImage(), view);
   }
 
   @Override
