@@ -1,4 +1,4 @@
-package me.selinali.tribble;
+package me.selinali.tribble.data;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import me.selinali.tribble.BuildConfig;
+import me.selinali.tribble.TribbleApp;
 import me.selinali.tribble.model.Shot;
 
 public class ArchiveManager {

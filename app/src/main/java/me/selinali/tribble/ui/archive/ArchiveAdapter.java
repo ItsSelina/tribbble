@@ -4,7 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.builder.AnimateGifMode;
 
 import java.util.List;
 
@@ -28,11 +29,11 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
 
   @Override
   public void onBindViewHolder(ShotViewHolder holder, int position) {
-    ImageView view = ((ImageView) holder.itemView);
-    Picasso.with(view.getContext())
-        .load(mShots.get(position).getImages().getNormal())
+    ImageView view = (ImageView) holder.itemView;
+    Ion.with(view)
+        .animateGif(AnimateGifMode.ANIMATE)
         .placeholder(R.drawable.grid_item_placeholder)
-        .into(view);
+        .load(mShots.get(position).getImages().getImage());
   }
 
   @Override

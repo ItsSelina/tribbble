@@ -13,12 +13,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.selinali.tribble.ArchiveManager;
+import me.selinali.tribble.data.ArchiveManager;
 import me.selinali.tribble.R;
 import me.selinali.tribble._;
 import me.selinali.tribble.api.Dribble;
 import me.selinali.tribble.model.Shot;
 import me.selinali.tribble.ui.Bindable;
+import me.selinali.tribble.utils.ViewUtils;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -75,7 +76,14 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_deck, container, false);
     mUnbinder = ButterKnife.bind(this, view);
+    setUpPadding();
     return view;
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+
   }
 
   @Override
@@ -94,5 +102,10 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     } else {
       mAdapter.addAll(shots);
     }
+  }
+
+  private void setUpPadding() {
+    int navigationBarHeight = ViewUtils.getNavigationBarHeight();
+    mCardStack.setPadding(ViewUtils.dpToPx(14), ViewUtils.dpToPx(52), ViewUtils.dpToPx(14), navigationBarHeight + ViewUtils.dpToPx(80));
   }
 }

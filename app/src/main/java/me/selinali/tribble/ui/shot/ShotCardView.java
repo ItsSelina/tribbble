@@ -5,7 +5,7 @@ import android.support.v7.widget.CardView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.koushikdutta.ion.Ion;
 
 import java.text.DateFormat;
 
@@ -33,7 +33,7 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
 
   @Override
   public void bind(Shot shot) {
-    Picasso.with(getContext()).load(shot.getImages().getImage()).into(mShotImageView);
+    Ion.with(mShotImageView).load(shot.getImages().getImage());
     mShotNameTextView.setText(shot.getTitle());
     mUserTextView.setText(shot.getUser().getName());
     mDateTextView.setText(DateFormat.getDateInstance().format(shot.getCreatedAt()));

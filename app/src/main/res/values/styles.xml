@@ -10,6 +10,11 @@
         <item name="android:colorEdgeEffect">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.TranslucentBars">
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
     <style name="ButtonBar" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>

@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribble.R;
 import me.selinali.tribble.ui.deck.DeckFragment;
+import me.selinali.tribble.utils.ViewUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
   @BindView(R.id.button_deck) View mDeckButton;
   @BindView(R.id.button_archive) View mArchiveButton;
   @BindView(R.id.container) View mContainer;
+  @BindView(R.id.bottom_bar) View mBottomBar;
 
   private final Map<String, Fragment> mFragments = new HashMap<>(2);
   private final Animation mAnimation = new AlphaAnimation(0, 1);
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
+    setupMargins();
 
     mFragments.put(TAG_DECK_FRAGMENT, DeckFragment.newInstance());
     mFragments.put(TAG_ARCHIVE_FRAGMENT, ArchiveFragment.newInstance());
@@ -71,5 +74,10 @@ public class MainActivity extends AppCompatActivity {
           .hide(manager.findFragmentByTag(otherTag))
           .commit();
     }
+  }
+
+  private void setupMargins() {
+    int navigationBarHeight = ViewUtils.getNavigationBarHeight();
+    ViewUtils.setBottomMargin(mBottomBar, navigationBarHeight + ViewUtils.dpToPx(16));
   }
 }

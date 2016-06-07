@@ -13,10 +13,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.selinali.tribble.ArchiveManager;
+import me.selinali.tribble.data.ArchiveManager;
 import me.selinali.tribble.R;
 import me.selinali.tribble.model.Shot;
 import me.selinali.tribble.ui.archive.ArchiveAdapter;
+import me.selinali.tribble.utils.ViewUtils;
 
 public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
 
@@ -39,6 +40,7 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_archive, container, false);
     mUnbinder = ButterKnife.bind(this, view);
+    setUpPadding();
     return view;
   }
 
@@ -59,5 +61,10 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
     RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
     mRecyclerView.setLayoutManager(manager);
     mRecyclerView.setAdapter(new ArchiveAdapter(shots));
+  }
+
+  private void setUpPadding() {
+    int statusBarHeight = ViewUtils.getStatusBarHeight();
+    mRecyclerView.setPadding(0, statusBarHeight, 0, 0);
   }
 }
