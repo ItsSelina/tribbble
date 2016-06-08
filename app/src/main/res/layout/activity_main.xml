@@ -41,6 +41,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/icon_deck"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginRight="8dp"
@@ -48,6 +49,7 @@
                     android:tint="@color/textNormal"/>
 
                 <TextView
+                    android:id="@+id/textview_deck"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignRight="@id/divider"
@@ -70,6 +72,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/icon_archive"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginRight="8dp"
@@ -77,6 +80,7 @@
                     android:tint="@color/textNormal"/>
 
                 <TextView
+                    android:id="@+id/textview_archive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignRight="@id/divider"

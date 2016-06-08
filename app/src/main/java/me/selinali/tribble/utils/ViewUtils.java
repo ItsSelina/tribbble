@@ -1,9 +1,13 @@
 package me.selinali.tribble.utils;
 
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.support.annotation.ColorRes;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import me.selinali.tribble.TribbleApp;
 
@@ -38,5 +42,10 @@ public final class ViewUtils {
   public static void setBottomMargin(View view, int bottomMargin) {
     ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
     params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, bottomMargin);
+  }
+
+  public static void applyColorFilter(ImageView imageView, @ColorRes int resId) {
+    imageView.setColorFilter(new PorterDuffColorFilter(
+        TribbleApp.color(resId), PorterDuff.Mode.SRC_ATOP));
   }
 }

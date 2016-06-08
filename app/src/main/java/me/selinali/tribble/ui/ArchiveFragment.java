@@ -65,6 +65,7 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
 
   private void setUpPadding() {
     int statusBarHeight = ViewUtils.getStatusBarHeight();
-    mRecyclerView.setPadding(0, statusBarHeight, 0, 0);
+    int navigationBarHeight = ViewUtils.getNavigationBarHeight();
+    mRecyclerView.setPadding(0, statusBarHeight, 0, navigationBarHeight);
   }
 }
