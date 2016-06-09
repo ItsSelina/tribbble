@@ -3,6 +3,7 @@ package me.selinali.tribble.ui;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -42,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
     mAnimation.setDuration(200);
   }
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
@@ -83,5 +83,15 @@ public class MainActivity extends AppCompatActivity {
   private void setupMargins() {
     int navigationBarHeight = ViewUtils.getNavigationBarHeight();
     ViewUtils.setBottomMargin(mBottomBar, navigationBarHeight + ViewUtils.dpToPx(16));
+  }
+
+  public void showBottomBar(boolean show) {
+    if (show && mBottomBar.getVisibility() == View.INVISIBLE) {
+      ViewCompat.animate(mBottomBar).alpha(1f).setDuration(150)
+          .withStartAction(() -> mBottomBar.setVisibility(View.VISIBLE));
+    } else if (!show && mBottomBar.getVisibility() == View.VISIBLE) {
+      ViewCompat.animate(mBottomBar).alpha(0f).setDuration(150)
+          .withEndAction(() -> mBottomBar.setVisibility(View.INVISIBLE));
+    }
   }
 }

@@ -31,8 +31,7 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
 
   private Unbinder mUnbinder;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
   }
 
@@ -40,30 +39,39 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_archive, container, false);
     mUnbinder = ButterKnife.bind(this, view);
-    setUpPadding();
+    setupPadding();
+    mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+      private int previousDy;
+
+      @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
+        if (Math.signum(previousDy) != Math.signum(dy)) {
+          ((MainActivity) getActivity()).showBottomBar(dy < 0);
+        }
+        previousDy = dy;
+      }
+    });
     return view;
   }
 
-  @Override
-  public void onResume() {
+  @Override public void onResume() {
     super.onResume();
     bind(ArchiveManager.instance().getArchivedShots());
   }
 
-  @Override
-  public void onDestroyView() {
+  @Override public void onDestroyView() {
     super.onDestroyView();
     mUnbinder.unbind();
   }
 
-  @Override
-  public void bind(List<Shot> shots) {
+  @Override public void bind(List<Shot> shots) {
     RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
     mRecyclerView.setLayoutManager(manager);
     mRecyclerView.setAdapter(new ArchiveAdapter(shots));
   }
 
-  private void setUpPadding() {
+  private void setupPadding() {
     int statusBarHeight = ViewUtils.getStatusBarHeight();
     int navigationBarHeight = ViewUtils.getNavigationBarHeight();
     mRecyclerView.setPadding(0, statusBarHeight, 0, navigationBarHeight);
