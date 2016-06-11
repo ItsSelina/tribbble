@@ -42,10 +42,12 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private Unbinder mUnbinder;
   private DeckAdapter mAdapter;
   private int mCurrentPage = 1;
+  private int mCurrentPosition = 0;
 
   private DeckListener mDeckListener = new DeckListener() {
     @Override
     void onCardSwiped(int direction, int swipedIndex) {
+      mCurrentPosition++;
       if (mAdapter.getCount() - swipedIndex == PRELOAD_THRESHOLD) {
         mCurrentPage++;
         loadNext();
@@ -56,6 +58,12 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
       } else if (direction == LEFT) {
         ArchiveManager.instance().discard(mAdapter.getItem(swipedIndex));
       }
+    }
+
+    @Override
+    public void topCardTapped() {
+      Shot shot = mAdapter.getItem(mCurrentPosition);
+      startActivity(ShotActivity.launchIntentFor(shot, getContext()));
     }
   };
 
@@ -97,8 +105,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   @Override
   public void bind(List<Shot> shots) {
     if (mAdapter == null) {
-      mAdapter = new DeckAdapter(getContext(), shots, shot ->
-          startActivity(ShotActivity.launchIntentFor(shot, getContext())));
+      mAdapter = new DeckAdapter(getContext(), shots);
       mCardStack.setListener(mDeckListener);
       mCardStack.setAdapter(mAdapter);
     } else {

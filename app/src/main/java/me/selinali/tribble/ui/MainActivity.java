@@ -55,10 +55,15 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void swapFragment(String tag) {
+    FragmentManager manager = getSupportFragmentManager();
+    Fragment currentFragment = manager.findFragmentByTag(tag);
+    if (currentFragment != null && currentFragment.isVisible()) {
+      return;
+    }
+
     mContainer.setAnimation(mAnimation);
     mAnimation.start();
 
-    FragmentManager manager = getSupportFragmentManager();
     String otherTag = tag.equals(TAG_DECK_FRAGMENT) ? TAG_ARCHIVE_FRAGMENT : TAG_DECK_FRAGMENT;
     if (manager.findFragmentByTag(tag) != null) {
       manager.beginTransaction()
