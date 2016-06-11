@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
   private static final String TAG_ARCHIVE_FRAGMENT = "TAG_ARCHIVE_FRAGMENT";
 
   @BindView(R.id.container) View mContainer;
-  @BindView(R.id.bottom_bar) BinaryBar mBottomBar;
+  @BindView(R.id.binary_bar) BinaryBar mBinaryBar;
 
   private final Map<String, Fragment> mFragments = new HashMap<>(2);
   private final Animation mAnimation = new AlphaAnimation(0, 1);
@@ -51,8 +51,7 @@ public class MainActivity extends AppCompatActivity {
     mFragments.put(TAG_ARCHIVE_FRAGMENT, ArchiveFragment.newInstance());
 
     swapFragment(TAG_DECK_FRAGMENT);
-
-    mBottomBar.addItems(mLeftItem, mRightItem);
+    mBinaryBar.addItems(mLeftItem, mRightItem);
   }
 
   private void swapFragment(String tag) {
@@ -79,16 +78,16 @@ public class MainActivity extends AppCompatActivity {
 
   private void setupMargins() {
     int navigationBarHeight = ViewUtils.getNavigationBarHeight();
-    ViewUtils.setBottomMargin(mBottomBar, navigationBarHeight + ViewUtils.dpToPx(16));
+    ViewUtils.setBottomMargin(mBinaryBar, navigationBarHeight + ViewUtils.dpToPx(16));
   }
 
   public void showBottomBar(boolean show) {
-    if (show && mBottomBar.getVisibility() == View.INVISIBLE) {
-      ViewCompat.animate(mBottomBar).alpha(1f).setDuration(150)
-          .withStartAction(() -> mBottomBar.setVisibility(View.VISIBLE));
-    } else if (!show && mBottomBar.getVisibility() == View.VISIBLE) {
-      ViewCompat.animate(mBottomBar).alpha(0f).setDuration(150)
-          .withEndAction(() -> mBottomBar.setVisibility(View.INVISIBLE));
+    if (show && mBinaryBar.getVisibility() == View.INVISIBLE) {
+      ViewCompat.animate(mBinaryBar).alpha(1f).setDuration(150)
+          .withStartAction(() -> mBinaryBar.setVisibility(View.VISIBLE));
+    } else if (!show && mBinaryBar.getVisibility() == View.VISIBLE) {
+      ViewCompat.animate(mBinaryBar).alpha(0f).setDuration(150)
+          .withEndAction(() -> mBinaryBar.setVisibility(View.INVISIBLE));
     }
   }
 }

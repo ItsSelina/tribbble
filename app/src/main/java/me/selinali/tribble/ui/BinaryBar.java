@@ -7,7 +7,6 @@ import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,10 +25,12 @@ public class BinaryBar extends CardView {
   static class Item {
     @StringRes final int textResourceId;
     @DrawableRes final int iconResourceId;
-    final View.OnClickListener clickListener;
+    final OnClickListener onClickListener;
   }
 
   private RelativeLayout mContainer;
+  private View mLeftView;
+  private View mRightView;
 
   public BinaryBar(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -42,13 +43,13 @@ public class BinaryBar extends CardView {
   }
 
   public void addItems(Item left, Item right) {
-    View leftView = inflateViewFor(left);
-    View rightView = inflateViewFor(right);
+    mLeftView = inflateViewFor(left);
+    mRightView = inflateViewFor(right);
     View divider = new View(getContext());
     divider.setBackgroundColor(color(R.color.divider));
-    divider.setId(View.generateViewId());
+    divider.setId(new Object().hashCode());
 
-    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+    LayoutParams layoutParams = new LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT);
 
@@ -72,17 +73,35 @@ public class BinaryBar extends CardView {
     rightParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
     rightParams.addRule(RelativeLayout.ALIGN_LEFT, divider.getId());
 
-    mContainer.addView(leftView);
-    mContainer.addView(rightView);
+    mContainer.addView(mLeftView);
+    mContainer.addView(mRightView);
     mContainer.addView(divider);
 
     mContainer.setLayoutParams(layoutParams);
     divider.setLayoutParams(dividerParams);
-    leftView.setLayoutParams(leftParams);
-    rightView.setLayoutParams(rightParams);
+    mLeftView.setLayoutParams(leftParams);
+    mRightView.setLayoutParams(rightParams);
 
-    leftView.setOnClickListener(left.clickListener);
-    rightView.setOnClickListener(right.clickListener);
+    setActive(mLeftView, true);
+
+    mLeftView.setOnClickListener(v -> {
+      setActive(mLeftView, true);
+      setActive(mRightView, false);
+      left.onClickListener.onClick(v);
+    });
+    mRightView.setOnClickListener(v -> {
+      setActive(mLeftView, false);
+      setActive(mRightView, true);
+      right.onClickListener.onClick(v);
+    });
+  }
+
+  public void setActive(View view, boolean active) {
+    int color = active ? R.color.colorAccent : R.color.textNormal;
+    ImageView icon = (ImageView) view.findViewById(R.id.icon);
+    TextView text = (TextView) view.findViewById(R.id.text);
+    ViewUtils.applyColorFilter(icon, color);
+    text.setTextColor(color(color));
   }
 
   private View inflateViewFor(Item item) {

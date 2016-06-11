@@ -9,7 +9,7 @@
     tools:context=".ui.MainActivity">
 
     <me.selinali.tribble.ui.BinaryBar
-        android:id="@+id/bottom_bar"
+        android:id="@+id/binary_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
         android:layout_alignParentBottom="true"
