@@ -12,8 +12,15 @@ import me.selinali.tribble.ui.shot.ShotCardView;
 
 public class DeckAdapter extends ArrayAdapter<Shot> {
 
-  public DeckAdapter(Context context, List<Shot> shots) {
+  public interface OnShotClickListener {
+    void onShotClicked(Shot shot);
+  }
+
+  private OnShotClickListener mOnShotClickListener;
+
+  public DeckAdapter(Context context, List<Shot> shots, OnShotClickListener onShotClickListener) {
     super(context, 0, shots);
+    mOnShotClickListener = onShotClickListener;
   }
 
   private static class ViewHolder {
@@ -34,6 +41,7 @@ public class DeckAdapter extends ArrayAdapter<Shot> {
     }
 
     viewHolder.view.bind(shot);
+    view.setOnClickListener(v -> mOnShotClickListener.onShotClicked(shot));
     return view;
   }
 }

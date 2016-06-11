@@ -1,8 +1,11 @@
 package me.selinali.tribble.model;
 
+import org.parceler.Parcel;
+
 import lombok.Getter;
 
+@Parcel
 public class User {
-  @Getter public int id;
-  @Getter public String name;
+  @Getter int id;
+  @Getter String name;
 }

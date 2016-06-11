@@ -13,12 +13,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.selinali.tribble.data.ArchiveManager;
 import me.selinali.tribble.R;
 import me.selinali.tribble._;
 import me.selinali.tribble.api.Dribble;
+import me.selinali.tribble.data.ArchiveManager;
 import me.selinali.tribble.model.Shot;
 import me.selinali.tribble.ui.Bindable;
+import me.selinali.tribble.ui.shot.ShotActivity;
 import me.selinali.tribble.utils.ViewUtils;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -96,7 +97,8 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   @Override
   public void bind(List<Shot> shots) {
     if (mAdapter == null) {
-      mAdapter = new DeckAdapter(getContext(), shots);
+      mAdapter = new DeckAdapter(getContext(), shots, shot ->
+          startActivity(ShotActivity.launchIntentFor(shot, getContext())));
       mCardStack.setListener(mDeckListener);
       mCardStack.setAdapter(mAdapter);
     } else {
