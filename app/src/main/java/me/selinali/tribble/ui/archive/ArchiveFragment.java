@@ -1,4 +1,4 @@
-package me.selinali.tribble.ui;
+package me.selinali.tribble.ui.archive;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +16,8 @@ import butterknife.Unbinder;
 import me.selinali.tribble.data.ArchiveManager;
 import me.selinali.tribble.R;
 import me.selinali.tribble.model.Shot;
-import me.selinali.tribble.ui.archive.ArchiveAdapter;
+import me.selinali.tribble.ui.Bindable;
+import me.selinali.tribble.ui.MainActivity;
 import me.selinali.tribble.utils.ViewUtils;
 
 public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {

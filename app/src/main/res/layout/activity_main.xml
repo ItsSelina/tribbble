@@ -8,90 +8,13 @@
     android:background="@color/colorPrimary"
     tools:context=".ui.MainActivity">
 
-    <android.support.v7.widget.CardView
+    <me.selinali.tribble.ui.BinaryBar
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/bottom_bar_height"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        app:elevation="2dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/bottom_bar_height">
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/divider"/>
-
-            <LinearLayout
-                android:id="@+id/button_deck"
-                style="@style/ButtonBar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignRight="@id/divider"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/icon_deck"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_deck"
-                    android:tint="@color/textNormal"/>
-
-                <TextView
-                    android:id="@+id/textview_deck"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignRight="@id/divider"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Deck"
-                    android:textAllCaps="true"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/button_archive"
-                style="@style/ButtonBar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignLeft="@id/divider"
-                android:layout_alignParentRight="true"
-                android:clickable="true"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/icon_archive"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_archive"
-                    android:tint="@color/textNormal"/>
-
-                <TextView
-                    android:id="@+id/textview_archive"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignRight="@id/divider"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Archive"
-                    android:textAllCaps="true"/>
-
-            </LinearLayout>
-
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+        app:elevation="2dp"/>
 
     <FrameLayout
         android:id="@+id/container"
