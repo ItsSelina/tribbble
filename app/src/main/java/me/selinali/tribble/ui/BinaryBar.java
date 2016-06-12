@@ -97,11 +97,12 @@ public class BinaryBar extends CardView {
   }
 
   public void setActive(View view, boolean active) {
-    int color = active ? R.color.colorAccent : R.color.textNormal;
+    int iconColor = active ? R.color.colorAccent : R.color.textNormal;
+    int textColor = active? R.color.textDark : R.color.textNormal;
     ImageView icon = (ImageView) view.findViewById(R.id.icon);
     TextView text = (TextView) view.findViewById(R.id.text);
-    ViewUtils.applyColorFilter(icon, color);
-    text.setTextColor(color(color));
+    ViewUtils.applyColorFilter(icon, iconColor);
+    text.setTextColor(color(textColor));
   }
 
   private View inflateViewFor(Item item) {

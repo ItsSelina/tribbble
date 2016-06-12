@@ -23,7 +23,7 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
   @BindView(R.id.textview_date) TextView mDateTextView;
   @BindView(R.id.textview_likes) TextView mLikesTextView;
   @BindView(R.id.textview_views) TextView mViewsTextView;
-  @BindView(R.id.textview_comments) TextView mCommentsTextView;
+  @BindView(R.id.textview_buckets) TextView mBucketsTextView;
 
   private final PicassoLoader mPicassoLoader;
   private final IonLoader mIonLoader;
@@ -45,6 +45,6 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
     mDateTextView.setText(DateFormat.getDateInstance().format(shot.getCreatedAt()));
     mLikesTextView.setText(String.valueOf(shot.getLikesCount()));
     mViewsTextView.setText(String.valueOf(shot.getViewsCount()));
-    mCommentsTextView.setText(String.valueOf(shot.getCommentsCount()));
+    mBucketsTextView.setText(String.valueOf(shot.getBucketsCount()));
   }
 }

@@ -16,6 +16,7 @@ public class Shot {
   @Getter Images images;
   @Getter int viewsCount;
   @Getter int likesCount;
+  @Getter int bucketsCount;
   @Getter int commentsCount;
   @Getter User user;
   @Getter Date createdAt;
