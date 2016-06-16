@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="me.selinali.tribble"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="me.selinali.tribble"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -13,16 +14,19 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.MainActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TranslucentBars">
-            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.shot.ShotActivity">
+        <activity
+            android:name=".ui.shot.ShotActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

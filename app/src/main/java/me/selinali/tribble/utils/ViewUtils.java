@@ -44,6 +44,11 @@ public final class ViewUtils {
     params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, bottomMargin);
   }
 
+  public static void setRightMargin(View view, int rightMargin) {
+    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+    params.setMargins(params.leftMargin, params.topMargin, rightMargin, params.bottomMargin);
+  }
+
   public static void applyColorFilter(ImageView imageView, @ColorRes int resId) {
     imageView.setColorFilter(new PorterDuffColorFilter(
         TribbleApp.color(resId), PorterDuff.Mode.SRC_ATOP));

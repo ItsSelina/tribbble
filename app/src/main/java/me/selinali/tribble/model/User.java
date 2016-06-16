@@ -8,4 +8,6 @@ import lombok.Getter;
 public class User {
   @Getter int id;
   @Getter String name;
+  @Getter String location;
+  @Getter String avatarUrl;
 }
