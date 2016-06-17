@@ -1,47 +1,37 @@
 package me.selinali.tribble.ui.shot;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.ColorInt;
-import android.view.View;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import me.selinali.tribble.R;
-import me.selinali.tribble.TribbleApp;
-import me.selinali.tribble.utils.ViewUtils;
 
 public class ColorView extends LinearLayout {
 
-  private View mColorView;
-  private TextView mColorTextView;
+  @BindView(R.id.image_view) CircleImageView mImageView;
+  @BindView(R.id.text_view) TextView mTextView;
 
-  public ColorView(Context context) {
+  @ColorInt private final int mColor;
+
+  public ColorView(Context context, @ColorInt int color) {
     super(context);
-    if (isInEditMode()) return;
-    init();
+    mColor = color;
+    if (!isInEditMode()) init();
   }
 
   private void init() {
+    inflate(getContext(), R.layout.color_view, this);
     setOrientation(HORIZONTAL);
+    setGravity(Gravity.CENTER);
+    setPadding(4, 4, 4, 4);
+    ButterKnife.bind(this);
 
-    mColorView = new View(getContext());
-    mColorTextView = new TextView(getContext());
-
-    addView(mColorView);
-    addView(mColorTextView);
-
-    mColorView.setBackground(TribbleApp.drawable(R.drawable.dot));
-    ViewUtils.setRightMargin(mColorView, ViewUtils.dpToPx(16));
-    mColorTextView.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-  }
-
-  public void bindColor(@ColorInt int color) {
-    GradientDrawable shapeDrawable = (GradientDrawable) mColorView.getBackground();
-    shapeDrawable.setColor(color);
-
-    String hexColor = String.format("#%06X", (0xFFFFFF & color));
-    mColorTextView.setText(hexColor);
+    mImageView.setFillColor(mColor);
+    mTextView.setText(String.format("#%06X", (0xFFFFFF & mColor)));
   }
 }

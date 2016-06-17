@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_view"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginRight="12dp"
+        tools:src="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        tools:text="#420420"/>
+</merge>

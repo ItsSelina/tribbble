@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.graphics.Palette.Swatch;
 import android.support.v7.widget.Toolbar;
-import android.util.Pair;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
 import org.parceler.Parcels;
 
 import java.text.DateFormat;
-import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +32,6 @@ import rx.schedulers.Schedulers;
 public class ShotActivity extends AppCompatActivity {
 
   private static final String EXTRA_SHOT = "EXTRA_SHOT";
-  private static final int COLORS = 6;
 
   public static Intent launchIntentFor(Shot shot, Context context) {
     return new Intent(context, ShotActivity.class)
@@ -57,7 +56,6 @@ public class ShotActivity extends AppCompatActivity {
 
   private Shot mShot;
   private Subscription mSubscription;
-  private ColorView[] mColorViews = new ColorView[COLORS];
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -71,28 +69,25 @@ public class ShotActivity extends AppCompatActivity {
     getSupportActionBar().setDisplayShowTitleEnabled(false);
     bind(mShot);
 
-    for (int i = 0; i < COLORS; i++) {
-      ((i < COLORS / 2) ? mColorsPaneLeft : mColorPaneRight)
-          .addView(mColorViews[i] = new ColorView(this));
-    }
-
     mSubscription = ImageUtils.fetchBitmapFrom(mShot.getImages().getHighResImage(), this)
         .doOnNext(mShotImageView::setImageBitmap)
-        .map(bitmap -> Palette.from(bitmap).maximumColorCount(6).generate())
-        .filter(palette -> palette != null)
+        .map(bitmap -> {
+          Palette palette = Palette.from(bitmap).maximumColorCount(6).generate();
+          List<Swatch> swatches = palette.getSwatches();
+          int size = swatches.size();
+          return swatches.subList(0, Math.min(size % 2 == 0 ? size : size - 1, 6));
+        })
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .map(Palette::getSwatches)
         .flatMapIterable(swatches -> swatches)
-        .zipWith(Arrays.asList(mColorViews), Pair::create)
-        .subscribe(swatchAndView -> {
-          swatchAndView.second.bindColor(swatchAndView.first.getRgb());
-        });
-  }
-
-
-  private void initColors() {
-
+        .map(swatch -> new ColorView(this, swatch.getRgb()))
+        .toList()
+        .subscribe(colorViews -> {
+          for (int i = 0; i < colorViews.size(); i++) {
+            if (i % 2 == 0) mColorsPaneLeft.addView(colorViews.get(i));
+            else mColorPaneRight.addView(colorViews.get(i));
+          }
+        }, throwable -> {{{{{}}}}});
   }
 
   private void bind(Shot shot) {
