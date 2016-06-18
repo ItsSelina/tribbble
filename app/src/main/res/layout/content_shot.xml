@@ -129,41 +129,63 @@
             android:layout_below="@id/counts_bar"
             android:background="@color/divider"/>
 
-        <View
-            android:id="@+id/divider_middle"
-            android:layout_width="1dp"
-            android:layout_height="92dp"
+        <LinearLayout
+            android:id="@+id/colors_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/divider_top"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/divider"/>
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <FrameLayout
+                android:id="@+id/color_container_left"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:id="@+id/color_holder_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"/>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/color_container_right"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:id="@+id/color_holder_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"/>
+            </FrameLayout>
+        </LinearLayout>
 
         <View
             android:id="@+id/divider_bottom"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/divider_middle"
+            android:layout_below="@id/colors_container"
             android:layout_marginBottom="16dp"
             android:background="@color/divider"/>
 
-        <LinearLayout
-            android:id="@+id/color_container_left"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <View
+            android:id="@+id/divider_middle"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
             android:layout_above="@id/divider_bottom"
             android:layout_below="@id/divider_top"
-            android:layout_toLeftOf="@id/divider_middle"
-            android:orientation="vertical"/>
-
-        <LinearLayout
-            android:id="@+id/color_container_right"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/divider_bottom"
-            android:layout_below="@id/divider_top"
-            android:layout_toRightOf="@id/divider_middle"
-            android:orientation="vertical"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageview_avatar"

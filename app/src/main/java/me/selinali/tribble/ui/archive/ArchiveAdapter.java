@@ -1,5 +1,6 @@
 package me.selinali.tribble.ui.archive;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,14 +10,17 @@ import java.util.List;
 import me.selinali.tribble.data.IonLoader;
 import me.selinali.tribble.data.PicassoLoader;
 import me.selinali.tribble.model.Shot;
+import me.selinali.tribble.ui.shot.ShotActivity;
 
 public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotViewHolder> {
 
   private final PicassoLoader mPicassoLoader;
   private final IonLoader mIonLoader;
+  private Context mContext;
   private List<Shot> mShots;
 
-  public ArchiveAdapter(List<Shot> shots) {
+  public ArchiveAdapter(Context context, List<Shot> shots) {
+    mContext = context;
     mShots = shots;
     mPicassoLoader = new PicassoLoader();
     mIonLoader = new IonLoader();
@@ -35,6 +39,8 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
     Shot shot = mShots.get(position);
     (shot.isAnimated() ? mIonLoader : mPicassoLoader)
         .load(shot.getImages().getHighResImage(), view);
+    view.setOnClickListener(v ->
+        mContext.startActivity(ShotActivity.launchIntentFor(shot, mContext)));
   }
 
   @Override

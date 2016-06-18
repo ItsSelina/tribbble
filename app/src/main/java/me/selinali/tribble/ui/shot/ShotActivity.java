@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
-import android.support.v7.graphics.Palette.Swatch;
 import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -17,7 +16,6 @@ import com.squareup.picasso.Picasso;
 import org.parceler.Parcels;
 
 import java.text.DateFormat;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,8 +44,8 @@ public class ShotActivity extends AppCompatActivity {
   @BindView(R.id.textview_views) TextView mViewsTextView;
   @BindView(R.id.textview_buckets) TextView mBucketsTextView;
   @BindView(R.id.textview_comments) TextView mCommentsTextView;
-  @BindView(R.id.color_container_left) LinearLayout mColorsPaneLeft;
-  @BindView(R.id.color_container_right) LinearLayout mColorPaneRight;
+  @BindView(R.id.color_holder_left) LinearLayout mColorsPaneLeft;
+  @BindView(R.id.color_holder_right) LinearLayout mColorPaneRight;
   @BindView(R.id.imageview_avatar) CircleImageView mAvatarImageView;
   @BindView(R.id.textview_name) TextView mArtistName;
   @BindView(R.id.textview_location) TextView mArtistLocation;
@@ -71,12 +69,7 @@ public class ShotActivity extends AppCompatActivity {
 
     mSubscription = ImageUtils.fetchBitmapFrom(mShot.getImages().getHighResImage(), this)
         .doOnNext(mShotImageView::setImageBitmap)
-        .map(bitmap -> {
-          Palette palette = Palette.from(bitmap).maximumColorCount(6).generate();
-          List<Swatch> swatches = palette.getSwatches();
-          int size = swatches.size();
-          return swatches.subList(0, Math.min(size % 2 == 0 ? size : size - 1, 6));
-        })
+        .map(bitmap -> Palette.from(bitmap).maximumColorCount(8).generate().getSwatches())
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .flatMapIterable(swatches -> swatches)
@@ -87,7 +80,7 @@ public class ShotActivity extends AppCompatActivity {
             if (i % 2 == 0) mColorsPaneLeft.addView(colorViews.get(i));
             else mColorPaneRight.addView(colorViews.get(i));
           }
-        }, throwable -> {{{{{}}}}});
+        }, throwable -> {});
   }
 
   private void bind(Shot shot) {

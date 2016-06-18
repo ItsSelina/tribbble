@@ -1,6 +1,7 @@
 package me.selinali.tribble.ui.shot;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.ColorInt;
 import android.view.Gravity;
 import android.widget.LinearLayout;
@@ -27,11 +28,11 @@ public class ColorView extends LinearLayout {
   private void init() {
     inflate(getContext(), R.layout.color_view, this);
     setOrientation(HORIZONTAL);
-    setGravity(Gravity.CENTER);
-    setPadding(4, 4, 4, 4);
+    setGravity(Gravity.CENTER_VERTICAL);
+    setPadding(10, 10, 10, 10);
     ButterKnife.bind(this);
 
-    mImageView.setFillColor(mColor);
+    mImageView.setImageDrawable(new ColorDrawable(mColor));
     mTextView.setText(String.format("#%06X", (0xFFFFFF & mColor)));
   }
 }

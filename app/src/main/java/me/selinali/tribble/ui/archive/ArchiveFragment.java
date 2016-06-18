@@ -69,7 +69,7 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
   @Override public void bind(List<Shot> shots) {
     RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
     mRecyclerView.setLayoutManager(manager);
-    mRecyclerView.setAdapter(new ArchiveAdapter(shots));
+    mRecyclerView.setAdapter(new ArchiveAdapter(getContext(), shots));
   }
 
   private void setupPadding() {
