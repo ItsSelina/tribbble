@@ -1,4 +1,4 @@
-package me.selinali.tribble;
+package me.selinali.tribbble;
 
 import org.junit.Test;
 
