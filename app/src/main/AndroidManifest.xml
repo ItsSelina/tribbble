@@ -26,7 +26,8 @@
         <activity
             android:name="me.selinali.tribbble.ui.shot.ShotActivity"
             android:parentActivityName="me.selinali.tribbble.ui.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TranslucentBars">
         </activity>
     </application>
 
