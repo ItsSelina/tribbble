@@ -1,12 +1,18 @@
 package me.selinali.tribbble.model;
 
 import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.experimental.Wither;
 
 @Parcel
+@AllArgsConstructor
 public class Shot {
   @Getter int id;
   @Getter String title;
@@ -21,6 +27,10 @@ public class Shot {
   @Getter User user;
   @Getter Date createdAt;
   @Getter boolean animated;
+  @Getter String commentsUrl;
+  @Wither @Getter List<Comment> comments = new ArrayList<>();
+
+  @ParcelConstructor Shot() {}
 
   @Parcel
   public static class Images {

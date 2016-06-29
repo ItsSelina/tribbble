@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageview_avatar"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginRight="16dp"
+        tools:src="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/textview_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@id/imageview_avatar"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        tools:text="Blah McBlahBlah"/>
+
+    <TextView
+        android:id="@+id/textview_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_name"
+        android:layout_toLeftOf="@+id/textview_likes_count"
+        android:layout_toRightOf="@id/imageview_avatar"
+        tools:text="a brown fox jumped blah blah blah sf osrdgjoerj goerg jeorgjworg"/>
+
+    <TextView
+        android:id="@+id/textview_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_comment"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/imageview_avatar"
+        tools:text="2 hours ago"/>
+
+    <TextView
+        android:id="@id/textview_likes_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/textview_date"
+        android:layout_alignParentRight="true"
+        android:drawableLeft="@drawable/ic_likes"
+        android:drawablePadding="4dp"
+        android:layout_marginLeft="8dp"
+        android:drawableTint="@color/textNormal"
+        android:gravity="center"
+        tools:text="10"/>
+
+</merge>

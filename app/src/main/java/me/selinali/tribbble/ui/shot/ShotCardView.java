@@ -21,9 +21,9 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
   @BindView(R.id.textview_shot_name) TextView mShotNameTextView;
   @BindView(R.id.textview_user) TextView mUserTextView;
   @BindView(R.id.textview_date) TextView mDateTextView;
-  @BindView(R.id.textview_likes) TextView mLikesTextView;
-  @BindView(R.id.textview_views) TextView mViewsTextView;
-  @BindView(R.id.textview_buckets) TextView mBucketsTextView;
+  @BindView(R.id.textview_likes_count) TextView mLikesTextView;
+  @BindView(R.id.textview_views_count) TextView mViewsTextView;
+  @BindView(R.id.textview_buckets_count) TextView mBucketsTextView;
 
   private final PicassoLoader mPicassoLoader;
   private final IonLoader mIonLoader;

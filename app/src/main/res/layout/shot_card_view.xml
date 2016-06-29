@@ -61,7 +61,7 @@
                 tools:text="June 24, 2016"/>
 
             <TextView
-                android:id="@+id/textview_views"
+                android:id="@+id/textview_views_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textview_date"
@@ -75,11 +75,11 @@
                 tools:text="1337"/>
 
             <TextView
-                android:id="@+id/textview_likes"
+                android:id="@+id/textview_likes_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textview_date"
-                android:layout_toLeftOf="@id/textview_views"
+                android:layout_toLeftOf="@id/textview_views_count"
                 android:drawableLeft="@drawable/ic_likes"
                 android:drawablePadding="4dp"
                 android:drawableTint="@color/textNormal"
@@ -87,11 +87,11 @@
                 tools:text="4"/>
 
             <TextView
-                android:id="@+id/textview_buckets"
+                android:id="@+id/textview_buckets_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textview_date"
-                android:layout_toRightOf="@id/textview_views"
+                android:layout_toRightOf="@id/textview_views_count"
                 android:drawableLeft="@drawable/bucket"
                 android:drawablePadding="4dp"
                 android:drawableTint="@color/textNormal"

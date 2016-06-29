@@ -58,7 +58,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/textview_likes"
+                    android:id="@+id/textview_likes_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -75,7 +75,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/textview_views"
+                    android:id="@+id/textview_views_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -93,7 +93,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/textview_buckets"
+                    android:id="@+id/textview_buckets_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -110,7 +110,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/textview_comments"
+                    android:id="@+id/textview_comments_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -195,9 +195,9 @@
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="22dp"
             android:layout_marginRight="16dp"
-            android:src="@color/colorAccent"
             app:civ_border_color="@color/divider"
-            app:civ_border_width="1dp"/>
+            app:civ_border_width="1dp"
+            tools:src="@color/colorAccent"/>
 
         <LinearLayout
             android:id="@+id/artist_info"
@@ -235,13 +235,11 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"/>
 
-        <WebView
-            android:id="@+id/webview_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <android.support.v7.widget.RecyclerView
             android:layout_below="@id/textview_description"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"/>
+            android:id="@+id/recyclerview_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

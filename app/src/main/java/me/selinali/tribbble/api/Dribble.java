@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import me.selinali.tribbble.BuildConfig;
+import me.selinali.tribbble.model.Comment;
 import me.selinali.tribbble.model.Shot;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -52,11 +53,18 @@ public class Dribble {
     return mEndpoints.getShot(id);
   }
 
+  public Observable<List<Comment>> getComments(Shot shot) {
+    return mEndpoints.getComments(shot.getId());
+  }
+
   private interface Endpoints {
     @GET("shots")
     Observable<List<Shot>> getShots(@Query("page") int page);
 
     @GET("shots/{id}")
     Observable<Shot> getShot(@Path("id") int id);
+
+    @GET("shots/{id}/comments")
+    Observable<List<Comment>> getComments(@Path("id") int id);
   }
 }
