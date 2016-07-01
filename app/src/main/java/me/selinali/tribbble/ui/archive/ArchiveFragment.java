@@ -13,8 +13,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.selinali.tribbble.data.ArchiveManager;
 import me.selinali.tribbble.R;
+import me.selinali.tribbble.data.ArchiveManager;
 import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.Bindable;
 import me.selinali.tribbble.ui.MainActivity;
@@ -53,12 +53,12 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
         previousDy = dy;
       }
     });
+    bind(ArchiveManager.instance().getArchivedShots());
     return view;
   }
 
   @Override public void onResume() {
     super.onResume();
-    bind(ArchiveManager.instance().getArchivedShots());
   }
 
   @Override public void onDestroyView() {

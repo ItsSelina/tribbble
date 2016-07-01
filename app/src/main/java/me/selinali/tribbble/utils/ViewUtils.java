@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.support.annotation.ColorRes;
+import android.support.v4.view.ViewCompat;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,5 +53,15 @@ public final class ViewUtils {
   public static void applyColorFilter(ImageView imageView, @ColorRes int resId) {
     imageView.setColorFilter(new PorterDuffColorFilter(
         TribbbleApp.color(resId), PorterDuff.Mode.SRC_ATOP));
+  }
+
+  public static void fadeView(View view, boolean show, long duration) {
+    if (show && view.getVisibility() == View.INVISIBLE) {
+      ViewCompat.animate(view).alpha(1f).setDuration(duration)
+          .withStartAction(() -> view.setVisibility(View.VISIBLE));
+    } else if (!show && view.getVisibility() == View.VISIBLE) {
+      ViewCompat.animate(view).alpha(0f).setDuration(duration)
+          .withEndAction(() -> view.setVisibility(View.INVISIBLE));
+    }
   }
 }

@@ -27,8 +27,7 @@ import rx.schedulers.Schedulers;
 
 public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
-  public DeckFragment() {
-  }
+  public DeckFragment() {}
 
   public static Fragment newInstance() {
     return new DeckFragment();
@@ -37,6 +36,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private static final int PRELOAD_THRESHOLD = 5;
 
   @BindView(R.id.card_stack) CardStack mCardStack;
+  @BindView(R.id.progress_view) View mProgressView;
 
   private Subscription mSubscription;
   private Unbinder mUnbinder;
@@ -48,7 +48,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     @Override
     void onCardSwiped(int direction, int swipedIndex) {
       mCurrentPosition++;
-      if (mAdapter.getCount() - swipedIndex == PRELOAD_THRESHOLD) {
+      if (mAdapter.getCount() - swipedIndex <= PRELOAD_THRESHOLD) {
         mCurrentPage++;
         loadNext();
       }
@@ -70,6 +70,9 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private void loadNext() {
     _.unsubscribe(mSubscription);
     mSubscription = Dribble.instance().getShots(mCurrentPage)
+        .flatMapIterable(shots -> shots)
+        .filter(DeckFragment::shouldShow)
+        .toList()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(this::bind, Throwable::printStackTrace);
@@ -85,14 +88,13 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_deck, container, false);
     mUnbinder = ButterKnife.bind(this, view);
-    setUpPadding();
+    setupPadding();
     return view;
   }
 
   @Override
   public void onResume() {
     super.onResume();
-
   }
 
   @Override
@@ -104,6 +106,10 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
   @Override
   public void bind(List<Shot> shots) {
+    if (shots.isEmpty()) {
+      mCurrentPage++;
+      loadNext();
+    }
     if (mAdapter == null) {
       mAdapter = new DeckAdapter(getContext(), shots);
       mCardStack.setListener(mDeckListener);
@@ -111,10 +117,18 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     } else {
       mAdapter.addAll(shots);
     }
+    ViewUtils.fadeView(mProgressView, false, 150);
   }
 
-  private void setUpPadding() {
+  private void setupPadding() {
     int navigationBarHeight = ViewUtils.getNavigationBarHeight();
-    mCardStack.setPadding(ViewUtils.dpToPx(14), ViewUtils.dpToPx(52), ViewUtils.dpToPx(14), navigationBarHeight + ViewUtils.dpToPx(80));
+    mCardStack.setPadding(ViewUtils.dpToPx(14), ViewUtils.dpToPx(52),
+        ViewUtils.dpToPx(14), navigationBarHeight + ViewUtils.dpToPx(80));
+    mProgressView.setPadding(0, 0, 0, navigationBarHeight + ViewUtils.dpToPx(80));
+  }
+
+  private static boolean shouldShow(Shot shot) {
+    return !ArchiveManager.instance().isArchived(shot) &&
+        !ArchiveManager.instance().isDiscarded(shot);
   }
 }

@@ -3,7 +3,6 @@ package me.selinali.tribbble.ui;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -15,11 +14,10 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
+import me.selinali.tribbble.ui.BinaryBar.Item;
 import me.selinali.tribbble.ui.archive.ArchiveFragment;
 import me.selinali.tribbble.ui.deck.DeckFragment;
 import me.selinali.tribbble.utils.ViewUtils;
-
-import me.selinali.tribbble.ui.BinaryBar.Item;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,12 +85,6 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void showBottomBar(boolean show) {
-    if (show && mBinaryBar.getVisibility() == View.INVISIBLE) {
-      ViewCompat.animate(mBinaryBar).alpha(1f).setDuration(150)
-          .withStartAction(() -> mBinaryBar.setVisibility(View.VISIBLE));
-    } else if (!show && mBinaryBar.getVisibility() == View.VISIBLE) {
-      ViewCompat.animate(mBinaryBar).alpha(0f).setDuration(150)
-          .withEndAction(() -> mBinaryBar.setVisibility(View.INVISIBLE));
-    }
+    ViewUtils.fadeView(mBinaryBar, show, 150);
   }
 }

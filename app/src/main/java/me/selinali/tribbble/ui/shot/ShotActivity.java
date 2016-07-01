@@ -113,6 +113,12 @@ public class ShotActivity extends AppCompatActivity {
         });
   }
 
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    _.unsubscribe(mShotSubscription);
+  }
+
   private void bindShot(Shot shot) {
     mShot = shot;
     Picasso.with(this).load(shot.getUser().getAvatarUrl()).into(mAvatarImageView);
@@ -135,11 +141,5 @@ public class ShotActivity extends AppCompatActivity {
       if (i % 2 == 0) mColorsPaneLeft.addView(view);
       else mColorPaneRight.addView(view);
     }
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    _.unsubscribe(mShotSubscription);
   }
 }
