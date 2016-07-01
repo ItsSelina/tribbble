@@ -80,7 +80,6 @@ public class ShotActivity extends AppCompatActivity {
             }
           });
 
-
   private final ImageLoader mIonLoader = callback ->
       Ion.with(mShotImageView).load(mShot.getImages().getHighResImage()).setCallback(
           (e, view) -> callback.call(((BitmapDrawable) view.getDrawable()).getBitmap()));

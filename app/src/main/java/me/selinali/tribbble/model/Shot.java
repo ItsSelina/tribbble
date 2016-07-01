@@ -28,6 +28,7 @@ public class Shot {
   @Getter Date createdAt;
   @Getter boolean animated;
   @Getter String commentsUrl;
+  @Wither @Getter Date archivedAt;
   @Wither @Getter List<Comment> comments = new ArrayList<>();
 
   @ParcelConstructor Shot() {}
