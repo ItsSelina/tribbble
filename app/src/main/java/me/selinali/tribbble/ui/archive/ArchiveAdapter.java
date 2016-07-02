@@ -7,26 +7,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.List;
 
 import me.selinali.tribbble.R;
-import me.selinali.tribbble.data.IonLoader;
-import me.selinali.tribbble.data.PicassoLoader;
 import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.shot.ShotActivity;
 
 public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotViewHolder> {
 
-  private final PicassoLoader mPicassoLoader;
-  private final IonLoader mIonLoader;
+  public interface ArchiveItemListener {
+    void onClick(Shot shot);
+  }
+
   private Context mContext;
   private List<Shot> mShots;
 
   public ArchiveAdapter(Context context, List<Shot> shots) {
     mContext = context;
     mShots = shots;
-    mPicassoLoader = new PicassoLoader();
-    mIonLoader = new IonLoader();
   }
 
   @Override
@@ -38,8 +39,11 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
   @Override
   public void onBindViewHolder(ShotViewHolder holder, int position) {
     Shot shot = mShots.get(position);
-    (shot.isAnimated() ? mIonLoader : mPicassoLoader)
-        .load(shot.getImages().getHighResImage(), holder.mShotImageView);
+    Glide.with(mContext)
+        .load(shot.getImages().getHighResImage())
+        .placeholder(R.drawable.grid_item_placeholder)
+        .diskCacheStrategy(shot.isAnimated() ? DiskCacheStrategy.SOURCE : DiskCacheStrategy.RESULT)
+        .into(holder.mShotImageView);
   }
 
   @Override
@@ -47,7 +51,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
     return mShots.size();
   }
 
-  class ShotViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+  class ShotViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
     public ImageView mShotImageView;
     public View mCheckmarkOverlay;
@@ -62,7 +66,10 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
 
     @Override
     public void onClick(View v) {
+//      Intent intent = ShotActivity.launchIntentFor(mShots.get(getAdapterPosition()), mContext);
+//      ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(, (View) mShotImageView, "shot");
       mContext.startActivity(ShotActivity.launchIntentFor(mShots.get(getAdapterPosition()), mContext));
+//      mListener.onClick(mShots.get(getAdapterPosition()));
     }
 
     @Override

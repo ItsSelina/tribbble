@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.text.DateFormat;
 
@@ -35,7 +35,7 @@ public class CommentItemView extends RelativeLayout implements Bindable<Comment>
 
   @Override
   public void bind(Comment comment) {
-    Picasso.with(getContext()).load(comment.getUser().getAvatarUrl()).into(mAvatarImageView);
+    Glide.with(getContext()).load(comment.getUser().getAvatarUrl()).into(mAvatarImageView);
     mNameTextView.setText(comment.getUser().getName());
     mCommentTextView.setText(Html.fromHtml(comment.getBody().trim()));
     mDateTextView.setText(DateFormat.getInstance().format(comment.getCreatedAt()));

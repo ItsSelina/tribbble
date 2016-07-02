@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageview_avatar"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_marginRight="16dp"
+        app:civ_border_color="@color/divider"
+        app:civ_border_width="1dp"
         tools:src="@color/colorAccent"/>
 
     <TextView
@@ -46,9 +49,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/textview_date"
         android:layout_alignParentRight="true"
+        android:layout_marginLeft="8dp"
         android:drawableLeft="@drawable/ic_likes"
         android:drawablePadding="4dp"
-        android:layout_marginLeft="8dp"
         android:drawableTint="@color/textNormal"
         android:gravity="center"
         tools:text="10"/>

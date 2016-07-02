@@ -3,7 +3,6 @@ package me.selinali.tribbble.ui.shot;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -11,13 +10,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.koushikdutta.ion.Ion;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import org.parceler.Parcels;
 
@@ -32,6 +36,7 @@ import me.selinali.tribbble._;
 import me.selinali.tribbble.api.Dribble;
 import me.selinali.tribbble.model.Comment;
 import me.selinali.tribbble.model.Shot;
+import me.selinali.tribbble.utils.ViewUtils;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -62,6 +67,7 @@ public class ShotActivity extends AppCompatActivity {
   @BindView(R.id.textview_location) TextView mArtistLocation;
   @BindView(R.id.textview_description) TextView mDescription;
   @BindView(R.id.recyclerview_comments) RecyclerView mCommentsRecyclerView;
+  @BindView(R.id.progress_container) View mProgressContainer;
 
   private Shot mShot;
   private Subscription mShotSubscription;
@@ -70,22 +76,32 @@ public class ShotActivity extends AppCompatActivity {
     void load(Action1<Bitmap> futureBitmap);
   }
 
-  private final ImageLoader mPicassoLoader = callback ->
-      Picasso.with(this).load(mShot.getImages().getHighResImage()).into(mShotImageView,
-          new Callback() {
-            @Override public void onError() {}
-
-            @Override public void onSuccess() {
-              callback.call(((BitmapDrawable) mShotImageView.getDrawable()).getBitmap());
+  private final ImageLoader mStaticImageLoader = callback ->
+      Glide.with(this)
+          .load(mShot.getImages().getHighResImage())
+          .asBitmap()
+          .placeholder(R.drawable.grid_item_placeholder)
+          .diskCacheStrategy(DiskCacheStrategy.RESULT)
+          .into(new BitmapImageViewTarget(mShotImageView) {
+            @Override public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+              super.onResourceReady(bitmap, anim);
+              callback.call(bitmap);
             }
           });
 
-  private final ImageLoader mIonLoader = callback ->
-      Ion.with(mShotImageView).load(mShot.getImages().getHighResImage()).setCallback(
-          (e, view) -> callback.call(((BitmapDrawable) view.getDrawable()).getBitmap()));
+  private final ImageLoader mGifImageLoader = callback ->
+      Glide.with(this)
+          .load(mShot.getImages().getHighResImage())
+          .placeholder(R.drawable.grid_item_placeholder)
+          .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+          .into(new GlideDrawableImageViewTarget(mShotImageView) {
+            @Override protected void setResource(GlideDrawable resource) {
+              super.setResource(resource);
+              callback.call(((GifDrawable) resource).getFirstFrame());
+            }
+          });
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_shot);
     mShot = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_SHOT));
@@ -95,9 +111,9 @@ public class ShotActivity extends AppCompatActivity {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-    (mShot.isAnimated() ? mIonLoader : mPicassoLoader).load(
-        bitmap -> Palette.from(bitmap).maximumColorCount(8).generate(
-            palette -> bindSwatches(palette.getSwatches())));
+    (mShot.isAnimated() ? mGifImageLoader : mStaticImageLoader).load(bitmap ->
+        Palette.from(bitmap).maximumColorCount(8)
+            .generate(palette -> bindSwatches(palette.getSwatches())));
 
     mShotSubscription = Dribble.instance()
         .getShot(mShot.getId())
@@ -113,15 +129,14 @@ public class ShotActivity extends AppCompatActivity {
         });
   }
 
-  @Override
-  protected void onDestroy() {
+  @Override protected void onDestroy() {
     super.onDestroy();
     _.unsubscribe(mShotSubscription);
   }
 
   private void bindShot(Shot shot) {
     mShot = shot;
-    Picasso.with(this).load(shot.getUser().getAvatarUrl()).into(mAvatarImageView);
+    Glide.with(this).load(shot.getUser().getAvatarUrl()).into(mAvatarImageView);
     mShotNameTextView.setText(shot.getTitle());
     mDateTextView.setText(DateFormat.getDateInstance().format(shot.getCreatedAt()));
     mLikesTextView.setText(String.valueOf(shot.getLikesCount()));
@@ -133,6 +148,7 @@ public class ShotActivity extends AppCompatActivity {
     mDescription.setText(Html.fromHtml(shot.getDescription().trim()));
     mCommentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     mCommentsRecyclerView.setAdapter(new CommentsAdapter(shot.getComments()));
+    ViewUtils.fadeView(mProgressContainer, false, 150);
   }
 
   public void bindSwatches(List<Palette.Swatch> swatches) {

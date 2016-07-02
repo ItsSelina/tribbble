@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/imageview_shot"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:src="@color/colorAccent"/>
+        android:transitionName="shot"
+        tools:src="@color/colorAccent" />
 
     <ImageView
         android:id="@+id/checkmark_overlay"
         android:layout_width="wrap_content"
-        android:adjustViewBounds="true"
         android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         android:src="@drawable/check"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 </RelativeLayout>

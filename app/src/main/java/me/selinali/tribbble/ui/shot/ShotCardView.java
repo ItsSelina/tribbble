@@ -5,13 +5,14 @@ import android.support.v7.widget.CardView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.text.DateFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
-import me.selinali.tribbble.data.IonLoader;
-import me.selinali.tribbble.data.PicassoLoader;
 import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.Bindable;
 
@@ -25,21 +26,19 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
   @BindView(R.id.textview_views_count) TextView mViewsTextView;
   @BindView(R.id.textview_buckets_count) TextView mBucketsTextView;
 
-  private final PicassoLoader mPicassoLoader;
-  private final IonLoader mIonLoader;
-
   public ShotCardView(Context context) {
     super(context);
     inflate(context, R.layout.shot_card_view, this);
     ButterKnife.bind(this);
-    mPicassoLoader = new PicassoLoader();
-    mIonLoader = new IonLoader();
   }
 
   @Override
   public void bind(Shot shot) {
-    (shot.isAnimated() ? mIonLoader : mPicassoLoader)
-        .load(shot.getImages().getHighResImage(), mShotImageView);
+    Glide.with(getContext())
+        .load(shot.getImages().getHighResImage())
+        .placeholder(R.drawable.grid_item_placeholder)
+        .diskCacheStrategy(shot.isAnimated() ? DiskCacheStrategy.SOURCE : DiskCacheStrategy.RESULT)
+        .into(mShotImageView);
     mShotNameTextView.setText(shot.getTitle());
     mUserTextView.setText(shot.getUser().getName());
     mDateTextView.setText(DateFormat.getDateInstance().format(shot.getCreatedAt()));

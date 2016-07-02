@@ -27,6 +27,7 @@
                 android:adjustViewBounds="true"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
+                android:transitionName="shot"
                 app:layout_collapseMode="parallax"/>
 
             <android.support.v7.widget.Toolbar

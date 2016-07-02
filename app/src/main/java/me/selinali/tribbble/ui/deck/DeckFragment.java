@@ -27,7 +27,8 @@ import rx.schedulers.Schedulers;
 
 public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
-  public DeckFragment() {}
+  public DeckFragment() {
+  }
 
   public static Fragment newInstance() {
     return new DeckFragment();
@@ -45,8 +46,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private int mCurrentPosition = 0;
 
   private DeckListener mDeckListener = new DeckListener() {
-    @Override
-    void onCardSwiped(int direction, int swipedIndex) {
+    @Override void onCardSwiped(int direction, int swipedIndex) {
       mCurrentPosition++;
       if (mAdapter.getCount() - swipedIndex <= PRELOAD_THRESHOLD) {
         mCurrentPage++;
@@ -60,8 +60,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
       }
     }
 
-    @Override
-    public void topCardTapped() {
+    @Override public void topCardTapped() {
       Shot shot = mAdapter.getItem(mCurrentPosition);
       startActivity(ShotActivity.launchIntentFor(shot, getContext()));
     }
@@ -78,34 +77,29 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
         .subscribe(this::bind, Throwable::printStackTrace);
   }
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
+  @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     loadNext();
   }
 
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
     View view = inflater.inflate(R.layout.fragment_deck, container, false);
     mUnbinder = ButterKnife.bind(this, view);
     setupPadding();
     return view;
   }
 
-  @Override
-  public void onResume() {
+  @Override public void onResume() {
     super.onResume();
   }
 
-  @Override
-  public void onDestroyView() {
+  @Override public void onDestroyView() {
     super.onDestroyView();
     mUnbinder.unbind();
     _.unsubscribe(mSubscription);
   }
 
-  @Override
-  public void bind(List<Shot> shots) {
+  @Override public void bind(List<Shot> shots) {
     if (shots.isEmpty()) {
       mCurrentPage++;
       loadNext();
