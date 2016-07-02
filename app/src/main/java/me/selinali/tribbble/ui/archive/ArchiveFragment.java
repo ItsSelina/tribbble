@@ -1,5 +1,6 @@
 package me.selinali.tribbble.ui.archive;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,11 +19,13 @@ import me.selinali.tribbble.data.ArchiveManager;
 import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.Bindable;
 import me.selinali.tribbble.ui.MainActivity;
+import me.selinali.tribbble.ui.shot.ShotActivity;
 import me.selinali.tribbble.utils.ViewUtils;
 
 public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
 
-  public ArchiveFragment() {}
+  public ArchiveFragment() {
+  }
 
   public static Fragment newInstance() {
     return new ArchiveFragment();
@@ -69,7 +72,11 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
   @Override public void bind(List<Shot> shots) {
     RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
     mRecyclerView.setLayoutManager(manager);
-    mRecyclerView.setAdapter(new ArchiveAdapter(getContext(), shots));
+    mRecyclerView.setAdapter(new ArchiveAdapter(shots, (shot, view) -> {
+      Intent intent = ShotActivity.launchIntentFor(shot, getContext());
+//      ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, "shot");
+      startActivity(intent);
+    }));
   }
 
   private void setupPadding() {

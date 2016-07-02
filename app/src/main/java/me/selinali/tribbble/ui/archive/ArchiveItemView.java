@@ -4,6 +4,9 @@ import android.content.Context;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
@@ -21,6 +24,9 @@ public class ArchiveItemView extends RelativeLayout implements Bindable<Shot> {
   }
 
   @Override public void bind(Shot shot) {
-
+    Glide.with(getContext())
+        .load(shot.getImages().getHighResImage())
+        .diskCacheStrategy(shot.isAnimated() ? DiskCacheStrategy.SOURCE : DiskCacheStrategy.RESULT)
+        .into(mShotImageView);
   }
 }

@@ -8,10 +8,12 @@ import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.experimental.Wither;
 
 @Parcel
+@EqualsAndHashCode
 @AllArgsConstructor
 public class Shot {
   @Getter int id;
