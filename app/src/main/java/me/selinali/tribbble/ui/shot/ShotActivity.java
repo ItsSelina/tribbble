@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -161,6 +162,7 @@ public class ShotActivity extends AppCompatActivity {
     mCommentsTextView.setText(String.valueOf(shot.getCommentsCount()));
     mArtistName.setText(shot.getUser().getName());
     mArtistLocation.setText(shot.getUser().getLocation());
+    mDescription.setMovementMethod(LinkMovementMethod.getInstance());
     mDescription.setText(Html.fromHtml(shot.getDescription().trim()));
     mCommentsRecyclerView.setNestedScrollingEnabled(false);
     mCommentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));

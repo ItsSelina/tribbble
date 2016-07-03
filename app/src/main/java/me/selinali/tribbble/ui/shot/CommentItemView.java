@@ -2,6 +2,7 @@ package me.selinali.tribbble.ui.shot;
 
 import android.content.Context;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class CommentItemView extends RelativeLayout implements Bindable<Comment>
   public void bind(Comment comment) {
     Glide.with(getContext()).load(comment.getUser().getAvatarUrl()).into(mAvatarImageView);
     mNameTextView.setText(comment.getUser().getName());
+    mCommentTextView.setMovementMethod(LinkMovementMethod.getInstance());
     mCommentTextView.setText(Html.fromHtml(comment.getBody().trim()));
     mDateTextView.setText(DateFormat.getInstance().format(comment.getCreatedAt()));
     mLikesCountTextView.setText(String.valueOf(comment.getLikesCount()));
