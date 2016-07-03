@@ -26,8 +26,7 @@ import me.selinali.tribbble.utils.ViewUtils;
 
 public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
 
-  public ArchiveFragment() {
-  }
+  public ArchiveFragment() {}
 
   public static Fragment newInstance() {
     return new ArchiveFragment();
@@ -52,7 +51,7 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
 
       @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-        if (Math.signum(previousDy) != Math.signum(dy)) {
+        if (Math.signum(previousDy) != Math.signum(dy) && dy != 0) {
           ((MainActivity) getActivity()).showBottomBar(dy < 0);
         }
         previousDy = dy;
@@ -78,7 +77,8 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
       String transitionName = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
           ? imageView.getTransitionName() : null;
       Intent intent = ShotActivity.launchIntentFor(shot, transitionName, getContext());
-      ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, transitionName);
+      ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+          getActivity(), imageView, transitionName);
       startActivity(intent, options.toBundle());
     }));
   }

@@ -1,7 +1,6 @@
 package me.selinali.tribbble.ui.archive;
 
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -27,7 +26,7 @@ public class ArchiveItemView extends RelativeLayout implements Bindable<Shot> {
   @Override public void bind(Shot shot) {
     Glide.with(getContext())
         .load(shot.getImages().getHighResImage())
-        .diskCacheStrategy(shot.isAnimated() ? DiskCacheStrategy.SOURCE : DiskCacheStrategy.RESULT)
+        .diskCacheStrategy(shot.isAnimated() ? DiskCacheStrategy.SOURCE : DiskCacheStrategy.ALL)
         .into(mShotImageView);
   }
 

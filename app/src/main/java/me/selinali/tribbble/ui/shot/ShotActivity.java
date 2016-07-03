@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -126,9 +125,11 @@ public class ShotActivity extends AppCompatActivity {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-    (mShot.isAnimated() ? mGifImageLoader : mStaticImageLoader).load(bitmap ->
-        Palette.from(bitmap).maximumColorCount(8)
-            .generate(palette -> bindSwatches(palette.getSwatches())));
+    (mShot.isAnimated() ? mGifImageLoader : mStaticImageLoader).load(bitmap -> {
+      Palette.from(bitmap).maximumColorCount(8)
+          .generate(palette -> bindSwatches(palette.getSwatches()));
+      startPostponedEnterTransition();
+    });
 
     mShotSubscription = Dribble.instance()
         .getShot(mShot.getId())
@@ -163,7 +164,6 @@ public class ShotActivity extends AppCompatActivity {
     mDescription.setText(Html.fromHtml(shot.getDescription().trim()));
     mCommentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     mCommentsRecyclerView.setAdapter(new CommentsAdapter(shot.getComments()));
-    startPostponedEnterTransition();
     ViewUtils.fadeView(mProgressContainer, false, 150);
   }
 
