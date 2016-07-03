@@ -162,6 +162,7 @@ public class ShotActivity extends AppCompatActivity {
     mArtistName.setText(shot.getUser().getName());
     mArtistLocation.setText(shot.getUser().getLocation());
     mDescription.setText(Html.fromHtml(shot.getDescription().trim()));
+    mCommentsRecyclerView.setNestedScrollingEnabled(false);
     mCommentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     mCommentsRecyclerView.setAdapter(new CommentsAdapter(shot.getComments()));
     ViewUtils.fadeView(mProgressContainer, false, 150);
