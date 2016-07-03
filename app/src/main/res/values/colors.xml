@@ -9,4 +9,7 @@
     <color name="textLight">#50000000</color>
     <color name="textDark">#616161</color>
     <color name="lightGray">#EEEEEE</color>
+
+    <color name="translucent_black">#20000000</color>
+    <color name="transparent">#00000000</color>
 </resources>
