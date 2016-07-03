@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,10 +48,16 @@ import rx.schedulers.Schedulers;
 public class ShotActivity extends AppCompatActivity {
 
   private static final String EXTRA_SHOT = "EXTRA_SHOT";
+  private static final String EXTRA_TRANSITION_SOURCE = "EXTRA_TRANSITION_SOURCE";
 
   public static Intent launchIntentFor(Shot shot, Context context) {
     return new Intent(context, ShotActivity.class)
         .putExtra(EXTRA_SHOT, Parcels.wrap(shot));
+  }
+
+  public static Intent launchIntentFor(Shot shot, String transitionSource, Context context) {
+    return launchIntentFor(shot, context)
+        .putExtra(EXTRA_TRANSITION_SOURCE, transitionSource);
   }
 
   @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -104,8 +112,15 @@ public class ShotActivity extends AppCompatActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_shot);
-    mShot = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_SHOT));
     ButterKnife.bind(this);
+    postponeEnterTransition();
+
+    mShot = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_SHOT));
+
+    String transitionName;
+    if ((transitionName = getIntent().getExtras().getString(EXTRA_TRANSITION_SOURCE)) != null) {
+      ViewCompat.setTransitionName(mShotImageView, transitionName);
+    }
 
     setSupportActionBar(mToolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -148,6 +163,7 @@ public class ShotActivity extends AppCompatActivity {
     mDescription.setText(Html.fromHtml(shot.getDescription().trim()));
     mCommentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     mCommentsRecyclerView.setAdapter(new CommentsAdapter(shot.getComments()));
+    startPostponedEnterTransition();
     ViewUtils.fadeView(mProgressContainer, false, 150);
   }
 

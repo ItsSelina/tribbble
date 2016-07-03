@@ -2,8 +2,8 @@ package me.selinali.tribbble.ui.archive;
 
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import me.selinali.tribbble.model.Shot;
 public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotViewHolder> {
 
   public interface ArchiveItemListener {
-    void onClick(Shot shot, View view);
+    void onClick(Shot shot, ImageView imageView);
   }
 
   private final List<Shot> mShots;
@@ -30,11 +30,12 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
 
   @Override
   public void onBindViewHolder(ShotViewHolder holder, int position) {
-    ArchiveItemView view = (ArchiveItemView) holder.itemView;
     Shot shot = mShots.get(position);
+    ArchiveItemView view = (ArchiveItemView) holder.itemView;
+    ImageView imageView = view.getImageView();
+    ViewCompat.setTransitionName(imageView, String.format("transition_%d", shot.hashCode()));
     view.bind(shot);
-    view.setOnClickListener(v -> mListener.onClick(shot, view));
-    ViewCompat.setTransitionName(view, String.format("transition_%d", shot.hashCode()));
+    view.setOnClickListener(v -> mListener.onClick(shot, view.getImageView()));
   }
 
   @Override
@@ -47,18 +48,4 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
       super(itemView);
     }
   }
-
-//  @Override
-//  public void onClick(View v) {
-////      Intent intent = ShotActivity.launchIntentFor(mShots.get(getAdapterPosition()), mContext);
-////      ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(, (View) mShotImageView, "shot");
-//    mContext.startActivity(ShotActivity.launchIntentFor(mShots.get(getAdapterPosition()), mContext));
-////      mListener.onClick(mShots.get(getAdapterPosition()));
-//  }
-
-//  @Override
-//  public boolean onLongClick(View v) {
-//    return false;
-//  }
-//}
 }

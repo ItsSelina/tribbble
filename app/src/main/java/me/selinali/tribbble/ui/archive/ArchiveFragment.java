@@ -1,7 +1,9 @@
 package me.selinali.tribbble.ui.archive;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -72,10 +74,12 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
   @Override public void bind(List<Shot> shots) {
     RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
     mRecyclerView.setLayoutManager(manager);
-    mRecyclerView.setAdapter(new ArchiveAdapter(shots, (shot, view) -> {
-      Intent intent = ShotActivity.launchIntentFor(shot, getContext());
-//      ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, "shot");
-      startActivity(intent);
+    mRecyclerView.setAdapter(new ArchiveAdapter(shots, (shot, imageView) -> {
+      String transitionName = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+          ? imageView.getTransitionName() : null;
+      Intent intent = ShotActivity.launchIntentFor(shot, transitionName, getContext());
+      ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), imageView, transitionName);
+      startActivity(intent, options.toBundle());
     }));
   }
 

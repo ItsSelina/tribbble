@@ -27,8 +27,7 @@ import rx.schedulers.Schedulers;
 
 public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
-  public DeckFragment() {
-  }
+  public DeckFragment() {}
 
   public static Fragment newInstance() {
     return new DeckFragment();
