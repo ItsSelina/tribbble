@@ -8,13 +8,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import java.text.DateFormat;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.model.Shot;
-import me.selinali.tribbble.ui.Bindable;
+import me.selinali.tribbble.ui.common.Bindable;
+import me.selinali.tribbble.utils.DateUtils;
 
 public class ShotCardView extends CardView implements Bindable<Shot> {
 
@@ -41,7 +40,7 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
         .into(mShotImageView);
     mShotNameTextView.setText(shot.getTitle());
     mUserTextView.setText(shot.getUser().getName());
-    mDateTextView.setText(DateFormat.getDateInstance().format(shot.getCreatedAt()));
+    mDateTextView.setText(DateUtils.formatDate(shot.getCreatedAt()));
     mLikesTextView.setText(String.valueOf(shot.getLikesCount()));
     mViewsTextView.setText(String.valueOf(shot.getViewsCount()));
     mBucketsTextView.setText(String.valueOf(shot.getBucketsCount()));

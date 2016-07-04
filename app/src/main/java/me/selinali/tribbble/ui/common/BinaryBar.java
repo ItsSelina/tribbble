@@ -1,4 +1,4 @@
-package me.selinali.tribbble.ui;
+package me.selinali.tribbble.ui.common;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
@@ -22,7 +22,7 @@ import static me.selinali.tribbble.TribbbleApp.string;
 public class BinaryBar extends CardView {
 
   @AllArgsConstructor
-  static class Item {
+  public static class Item {
     @StringRes final int textResourceId;
     @DrawableRes final int iconResourceId;
     final OnClickListener onClickListener;

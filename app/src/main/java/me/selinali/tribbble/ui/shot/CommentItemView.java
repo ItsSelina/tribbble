@@ -9,13 +9,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.text.DateFormat;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
+import me.selinali.tribbble.TribbbleApp;
 import me.selinali.tribbble.model.Comment;
-import me.selinali.tribbble.ui.Bindable;
+import me.selinali.tribbble.ui.common.Bindable;
+import me.selinali.tribbble.utils.DateUtils;
+import me.selinali.tribbble.utils.StringUtils;
 import me.selinali.tribbble.utils.ViewUtils;
 
 public class CommentItemView extends RelativeLayout implements Bindable<Comment> {
@@ -30,8 +31,10 @@ public class CommentItemView extends RelativeLayout implements Bindable<Comment>
     super(context);
     inflate(context, R.layout.comment_item, this);
     ButterKnife.bind(this);
-    int padding = ViewUtils.dpToPx(16);
-    setPadding(padding, padding, padding, padding);
+
+    setBackground(TribbbleApp.drawable(R.color.lightGray));
+    setPadding(ViewUtils.dpToPx(16), ViewUtils.dpToPx(10),
+        ViewUtils.dpToPx(16), ViewUtils.dpToPx(10));
   }
 
   @Override
@@ -39,8 +42,8 @@ public class CommentItemView extends RelativeLayout implements Bindable<Comment>
     Glide.with(getContext()).load(comment.getUser().getAvatarUrl()).into(mAvatarImageView);
     mNameTextView.setText(comment.getUser().getName());
     mCommentTextView.setMovementMethod(LinkMovementMethod.getInstance());
-    mCommentTextView.setText(Html.fromHtml(comment.getBody().trim()));
-    mDateTextView.setText(DateFormat.getInstance().format(comment.getCreatedAt()));
+    mCommentTextView.setText(StringUtils.trimTrailingNewLines(Html.fromHtml(comment.getBody())));
+    mDateTextView.setText(DateUtils.formatDate(comment.getCreatedAt()));
     mLikesCountTextView.setText(String.valueOf(comment.getLikesCount()));
   }
 }

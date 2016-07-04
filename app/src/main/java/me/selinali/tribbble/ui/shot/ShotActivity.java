@@ -38,6 +38,9 @@ import me.selinali.tribbble._;
 import me.selinali.tribbble.api.Dribble;
 import me.selinali.tribbble.model.Comment;
 import me.selinali.tribbble.model.Shot;
+import me.selinali.tribbble.ui.common.DividerItemDecoration;
+import me.selinali.tribbble.utils.DateUtils;
+import me.selinali.tribbble.utils.StringUtils;
 import me.selinali.tribbble.utils.ViewUtils;
 import rx.Observable;
 import rx.Subscription;
@@ -155,7 +158,7 @@ public class ShotActivity extends AppCompatActivity {
     mShot = shot;
     Glide.with(this).load(shot.getUser().getAvatarUrl()).into(mAvatarImageView);
     mShotNameTextView.setText(shot.getTitle());
-    mDateTextView.setText(DateFormat.getDateInstance().format(shot.getCreatedAt()));
+    mDateTextView.setText(DateUtils.formatDate(shot.getCreatedAt()));
     mLikesTextView.setText(String.valueOf(shot.getLikesCount()));
     mViewsTextView.setText(String.valueOf(shot.getViewsCount()));
     mBucketsTextView.setText(String.valueOf(shot.getBucketsCount()));
@@ -163,14 +166,15 @@ public class ShotActivity extends AppCompatActivity {
     mArtistName.setText(shot.getUser().getName());
     mArtistLocation.setText(shot.getUser().getLocation());
     mDescription.setMovementMethod(LinkMovementMethod.getInstance());
-    mDescription.setText(Html.fromHtml(shot.getDescription().trim()));
+    mDescription.setText(StringUtils.trimTrailingNewLines(Html.fromHtml(shot.getDescription())));
     mCommentsRecyclerView.setNestedScrollingEnabled(false);
     mCommentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    mCommentsRecyclerView.addItemDecoration(new DividerItemDecoration(this));
     mCommentsRecyclerView.setAdapter(new CommentsAdapter(shot.getComments()));
     ViewUtils.fadeView(mProgressContainer, false, 150);
   }
 
-  public void bindSwatches(List<Palette.Swatch> swatches) {
+  private void bindSwatches(List<Palette.Swatch> swatches) {
     for (int i = 0; i < swatches.size(); i++) {
       ColorView view = new ColorView(this, swatches.get(i).getRgb());
       if (i % 2 == 0) mColorsPaneLeft.addView(view);

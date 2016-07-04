@@ -11,7 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.model.Shot;
-import me.selinali.tribbble.ui.Bindable;
+import me.selinali.tribbble.ui.common.Bindable;
 
 public class ArchiveItemView extends RelativeLayout implements Bindable<Shot> {
 

@@ -19,7 +19,7 @@ import butterknife.Unbinder;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.data.ArchiveManager;
 import me.selinali.tribbble.model.Shot;
-import me.selinali.tribbble.ui.Bindable;
+import me.selinali.tribbble.ui.common.Bindable;
 import me.selinali.tribbble.ui.MainActivity;
 import me.selinali.tribbble.ui.shot.ShotActivity;
 import me.selinali.tribbble.utils.ViewUtils;

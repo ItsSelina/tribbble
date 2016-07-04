@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.PluralsRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 
@@ -37,5 +38,9 @@ public class TribbbleApp extends Application {
 
   public static String string(@StringRes int resId) {
     return sContext.getString(resId);
+  }
+
+  public static String plural(@PluralsRes int resId, int quantity) {
+    return sContext.getResources().getQuantityString(resId, quantity, quantity);
   }
 }

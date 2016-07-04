@@ -8,7 +8,7 @@
     android:background="@color/colorPrimary"
     tools:context=".ui.MainActivity">
 
-    <me.selinali.tribbble.ui.BinaryBar
+    <me.selinali.tribbble.ui.common.BinaryBar
         android:id="@+id/binary_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"

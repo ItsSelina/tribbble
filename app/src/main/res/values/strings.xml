@@ -2,4 +2,15 @@
     <string name="app_name">Tribbble</string>
     <string name="archive">Archive</string>
     <string name="deck">Deck</string>
+
+    <plurals name="about_hours_ago">
+        <item quantity="one">about 1 hour ago</item>
+        <item quantity="other">about %s hours ago</item>
+    </plurals>
+
+    <plurals name="about_minutes_ago">
+        <item quantity="one">about 1 minute ago</item>
+        <item quantity="other">about %s minutes ago</item>
+    </plurals>
+
 </resources>
