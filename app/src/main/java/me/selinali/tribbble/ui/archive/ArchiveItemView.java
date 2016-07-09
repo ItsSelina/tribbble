@@ -1,6 +1,7 @@
 package me.selinali.tribbble.ui.archive;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -16,6 +17,7 @@ import me.selinali.tribbble.ui.common.Bindable;
 public class ArchiveItemView extends RelativeLayout implements Bindable<Shot> {
 
   @BindView(R.id.imageview_shot) ImageView mShotImageView;
+  @BindView(R.id.gif_label) View mGifLabel;
 
   public ArchiveItemView(Context context) {
     super(context);
@@ -24,8 +26,10 @@ public class ArchiveItemView extends RelativeLayout implements Bindable<Shot> {
   }
 
   @Override public void bind(Shot shot) {
+    mGifLabel.setVisibility(shot.isAnimated() ? VISIBLE : INVISIBLE);
     Glide.with(getContext())
         .load(shot.getImages().getHighResImage())
+        .placeholder(R.drawable.grid_item_placeholder)
         .diskCacheStrategy(shot.isAnimated() ? DiskCacheStrategy.SOURCE : DiskCacheStrategy.ALL)
         .into(mShotImageView);
   }
