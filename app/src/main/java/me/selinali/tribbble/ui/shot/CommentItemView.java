@@ -33,8 +33,8 @@ public class CommentItemView extends RelativeLayout implements Bindable<Comment>
     ButterKnife.bind(this);
 
     setBackground(TribbbleApp.drawable(R.color.lightGray));
-    setPadding(ViewUtils.dpToPx(16), ViewUtils.dpToPx(10),
-        ViewUtils.dpToPx(16), ViewUtils.dpToPx(10));
+    setPadding(ViewUtils.dpToPx(16), ViewUtils.dpToPx(12),
+        ViewUtils.dpToPx(16), ViewUtils.dpToPx(12));
   }
 
   @Override

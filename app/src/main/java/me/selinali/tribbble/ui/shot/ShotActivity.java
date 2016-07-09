@@ -64,6 +64,7 @@ public class ShotActivity extends AppCompatActivity {
   }
 
   @BindView(R.id.toolbar) Toolbar mToolbar;
+  @BindView(R.id.shot_content_container) View mShotContentContainer;
   @BindView(R.id.imageview_shot) ImageView mShotImageView;
   @BindView(R.id.textview_shot_name) TextView mShotNameTextView;
   @BindView(R.id.textview_date) TextView mDateTextView;
@@ -116,6 +117,7 @@ public class ShotActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_shot);
     ButterKnife.bind(this);
+    setUpPadding();
     postponeEnterTransition();
 
     mShot = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_SHOT));
@@ -180,5 +182,12 @@ public class ShotActivity extends AppCompatActivity {
       if (i % 2 == 0) mColorsPaneLeft.addView(view);
       else mColorPaneRight.addView(view);
     }
+  }
+
+  private void setUpPadding() {
+    mShotContentContainer.setPadding(mShotContentContainer.getPaddingLeft(),
+        mShotContentContainer.getPaddingTop(),
+        mShotContentContainer.getPaddingRight(),
+        ViewUtils.getNavigationBarHeight());
   }
 }
