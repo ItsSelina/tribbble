@@ -73,4 +73,18 @@ public class ArchiveManager {
   public boolean isDiscarded(Shot shot) {
     return mDiscardedPreferences.contains(String.valueOf(shot.getId()));
   }
+
+  @SuppressLint("CommitPrefEdits")
+  public void unArchive(Shot shot) {
+    mArchivedPreferences.edit()
+        .remove(String.valueOf(shot.getId()))
+        .commit();
+  }
+
+  @SuppressLint("CommitPrefEdits")
+  public void unDiscard(Shot shot) {
+    mDiscardedPreferences.edit()
+        .remove(String.valueOf(shot.getId()))
+        .commit();
+  }
 }

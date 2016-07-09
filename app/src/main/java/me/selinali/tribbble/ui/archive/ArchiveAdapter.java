@@ -2,6 +2,7 @@ package me.selinali.tribbble.ui.archive;
 
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -13,14 +14,18 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
 
   public interface ArchiveItemListener {
     void onClick(Shot shot, ImageView imageView);
+    void onSwipe(Shot shot);
   }
 
   private final List<Shot> mShots;
   private final ArchiveItemListener mListener;
 
-  public ArchiveAdapter(List<Shot> shots, ArchiveItemListener listener) {
+  public ArchiveAdapter(List<Shot> shots, RecyclerView recyclerView, ArchiveItemListener listener) {
     mShots = shots;
     mListener = listener;
+    ItemCallback simpleCallback = new ItemCallback(0, ItemTouchHelper.LEFT);
+    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+    itemTouchHelper.attachToRecyclerView(recyclerView);
   }
 
   @Override
@@ -46,6 +51,23 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
   class ShotViewHolder extends RecyclerView.ViewHolder {
     public ShotViewHolder(ArchiveItemView itemView) {
       super(itemView);
+    }
+  }
+
+  private class ItemCallback extends ItemTouchHelper.SimpleCallback {
+    public ItemCallback(int dragDirs, int swipeDirs) {
+      super(dragDirs, swipeDirs);
+    }
+
+    @Override public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+      return false;
+    }
+
+    @Override public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+      int position = viewHolder.getAdapterPosition();
+      ArchiveAdapter.this.notifyItemRemoved(position);
+      mListener.onSwipe(mShots.get(position));
+      mShots.remove(position);
     }
   }
 }
