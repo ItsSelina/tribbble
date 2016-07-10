@@ -18,6 +18,7 @@ import me.selinali.tribbble._;
 import me.selinali.tribbble.api.Dribble;
 import me.selinali.tribbble.data.ArchiveManager;
 import me.selinali.tribbble.model.Shot;
+import me.selinali.tribbble.ui.MainActivity;
 import me.selinali.tribbble.ui.common.Bindable;
 import me.selinali.tribbble.ui.shot.ShotActivity;
 import me.selinali.tribbble.utils.ViewUtils;
@@ -53,7 +54,9 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
       }
 
       if (direction == RIGHT) {
-        ArchiveManager.instance().archive(mAdapter.getItem(swipedIndex));
+        Shot shot = mAdapter.getItem(swipedIndex);
+        ArchiveManager.instance().archive(shot);
+        ((MainActivity) getActivity()).notifyShotArchived(shot);
       } else if (direction == LEFT) {
         ArchiveManager.instance().discard(mAdapter.getItem(swipedIndex));
       }

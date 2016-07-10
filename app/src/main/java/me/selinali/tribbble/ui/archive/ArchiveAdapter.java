@@ -28,6 +28,11 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
     itemTouchHelper.attachToRecyclerView(recyclerView);
   }
 
+  public void insert(Shot shot, int position) {
+    mShots.add(position, shot);
+    notifyItemInserted(position);
+  }
+
   @Override
   public ShotViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     return new ShotViewHolder(new ArchiveItemView(parent.getContext()));

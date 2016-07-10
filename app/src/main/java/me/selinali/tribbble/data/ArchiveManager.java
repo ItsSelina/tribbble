@@ -75,7 +75,7 @@ public class ArchiveManager {
   }
 
   @SuppressLint("CommitPrefEdits")
-  public void unArchive(Shot shot) {
+  public void unarchive(Shot shot) {
     mArchivedPreferences.edit()
         .remove(String.valueOf(shot.getId()))
         .commit();

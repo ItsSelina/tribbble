@@ -35,6 +35,7 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
   @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
 
   private Unbinder mUnbinder;
+  private ArchiveAdapter mAdapter;
 
   private ArchiveItemListener mItemListener = new ArchiveItemListener() {
     @Override public void onClick(Shot shot, ImageView imageView) {
@@ -43,7 +44,7 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
     }
 
     @Override public void onSwipe(Shot shot) {
-      ArchiveManager.instance().unArchive(shot);
+      ArchiveManager.instance().unarchive(shot);
       ArchiveManager.instance().discard(shot);
     }
   };
@@ -73,19 +74,19 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
     return view;
   }
 
-  @Override public void onResume() {
-    super.onResume();
-  }
-
   @Override public void onDestroyView() {
     super.onDestroyView();
     mUnbinder.unbind();
   }
 
   @Override public void bind(List<Shot> shots) {
-    RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
-    mRecyclerView.setLayoutManager(manager);
-    mRecyclerView.setAdapter(new ArchiveAdapter(shots, mRecyclerView, mItemListener));
+    mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+    mRecyclerView.setAdapter(mAdapter = new ArchiveAdapter(shots, mRecyclerView, mItemListener));
+  }
+
+  public void insertFirst(Shot shot) {
+    mAdapter.insert(shot, 0);
+    mRecyclerView.scrollToPosition(0);
   }
 
   private void setupPadding() {

@@ -14,6 +14,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
+import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.common.BinaryBar;
 import me.selinali.tribbble.ui.common.BinaryBar.Item;
 import me.selinali.tribbble.ui.archive.ArchiveFragment;
@@ -87,5 +88,11 @@ public class MainActivity extends AppCompatActivity {
 
   public void showBottomBar(boolean show) {
     ViewUtils.fadeView(mBinaryBar, show, 150);
+  }
+
+  public void notifyShotArchived(Shot shot) {
+    if (getSupportFragmentManager().findFragmentByTag(TAG_ARCHIVE_FRAGMENT) != null) {
+      ((ArchiveFragment) mFragments.get(TAG_ARCHIVE_FRAGMENT)).insertFirst(shot);
+    }
   }
 }
