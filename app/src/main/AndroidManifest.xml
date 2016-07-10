@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="me.selinali.tribbble"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="me.selinali.tribbble">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -19,7 +19,6 @@
             android:theme="@style/AppTheme.TranslucentBars">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,15 +19,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import org.parceler.Parcels;
 
-import java.text.DateFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,16 +49,10 @@ import rx.schedulers.Schedulers;
 public class ShotActivity extends AppCompatActivity {
 
   private static final String EXTRA_SHOT = "EXTRA_SHOT";
-  private static final String EXTRA_TRANSITION_SOURCE = "EXTRA_TRANSITION_SOURCE";
 
   public static Intent launchIntentFor(Shot shot, Context context) {
     return new Intent(context, ShotActivity.class)
         .putExtra(EXTRA_SHOT, Parcels.wrap(shot));
-  }
-
-  public static Intent launchIntentFor(Shot shot, String transitionSource, Context context) {
-    return launchIntentFor(shot, context)
-        .putExtra(EXTRA_TRANSITION_SOURCE, transitionSource);
   }
 
   @BindView(R.id.toolbar) Toolbar mToolbar;
@@ -91,13 +83,12 @@ public class ShotActivity extends AppCompatActivity {
   private final ImageLoader mStaticImageLoader = callback ->
       Glide.with(this)
           .load(mShot.getImages().getHighResImage())
-          .asBitmap()
           .placeholder(R.drawable.grid_item_placeholder)
           .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-          .into(new BitmapImageViewTarget(mShotImageView) {
-            @Override public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
-              super.onResourceReady(bitmap, anim);
-              callback.call(bitmap);
+          .into(new GlideDrawableImageViewTarget(mShotImageView) {
+            @Override protected void setResource(GlideDrawable resource) {
+              super.setResource(resource);
+              callback.call(((GlideBitmapDrawable) resource).getBitmap());
             }
           });
 
@@ -117,15 +108,10 @@ public class ShotActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_shot);
     ButterKnife.bind(this);
-    setUpPadding();
-    postponeEnterTransition();
+    setupPadding();
+    overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
 
     mShot = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_SHOT));
-
-    String transitionName;
-    if ((transitionName = getIntent().getExtras().getString(EXTRA_TRANSITION_SOURCE)) != null) {
-      ViewCompat.setTransitionName(mShotImageView, transitionName);
-    }
 
     setSupportActionBar(mToolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -134,7 +120,6 @@ public class ShotActivity extends AppCompatActivity {
     (mShot.isAnimated() ? mGifImageLoader : mStaticImageLoader).load(bitmap -> {
       Palette.from(bitmap).maximumColorCount(8)
           .generate(palette -> bindSwatches(palette.getSwatches()));
-      startPostponedEnterTransition();
     });
 
     mShotSubscription = Dribble.instance()
@@ -184,10 +169,24 @@ public class ShotActivity extends AppCompatActivity {
     }
   }
 
-  private void setUpPadding() {
+  private void setupPadding() {
     mShotContentContainer.setPadding(mShotContentContainer.getPaddingLeft(),
         mShotContentContainer.getPaddingTop(),
         mShotContentContainer.getPaddingRight(),
         ViewUtils.getNavigationBarHeight());
+  }
+
+  @Override public void onBackPressed() {
+    super.onBackPressed();
+    overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        onBackPressed();
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
   }
 }
