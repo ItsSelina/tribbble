@@ -7,6 +7,9 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,8 +33,17 @@ public class ArchiveItemView extends RelativeLayout implements Bindable<Shot> {
     Glide.with(getContext())
         .load(shot.getImages().getHighResImage())
         .placeholder(R.drawable.grid_item_placeholder)
-        .diskCacheStrategy(shot.isAnimated() ? DiskCacheStrategy.SOURCE : DiskCacheStrategy.ALL)
-        .into(mShotImageView);
+        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+        .into(new GlideDrawableImageViewTarget(mShotImageView) {
+          @Override public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
+            super.onResourceReady(resource, animation);
+            resource.stop();
+          }
+
+          @Override public void onStart() {}
+
+          @Override public void onStop() {}
+        });
   }
 
   public ImageView getImageView() {

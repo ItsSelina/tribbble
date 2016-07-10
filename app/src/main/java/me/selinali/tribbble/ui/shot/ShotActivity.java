@@ -93,7 +93,7 @@ public class ShotActivity extends AppCompatActivity {
           .load(mShot.getImages().getHighResImage())
           .asBitmap()
           .placeholder(R.drawable.grid_item_placeholder)
-          .diskCacheStrategy(DiskCacheStrategy.RESULT)
+          .diskCacheStrategy(DiskCacheStrategy.SOURCE)
           .into(new BitmapImageViewTarget(mShotImageView) {
             @Override public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
               super.onResourceReady(bitmap, anim);

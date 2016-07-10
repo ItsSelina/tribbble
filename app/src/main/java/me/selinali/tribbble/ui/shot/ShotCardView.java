@@ -36,7 +36,7 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
     Glide.with(getContext())
         .load(shot.getImages().getHighResImage())
         .placeholder(R.drawable.grid_item_placeholder)
-        .diskCacheStrategy(shot.isAnimated() ? DiskCacheStrategy.SOURCE : DiskCacheStrategy.RESULT)
+        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
         .into(mShotImageView);
     mShotNameTextView.setText(shot.getTitle());
     mUserTextView.setText(shot.getUser().getName());
