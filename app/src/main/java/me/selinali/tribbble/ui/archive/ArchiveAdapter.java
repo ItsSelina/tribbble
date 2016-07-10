@@ -1,6 +1,5 @@
 package me.selinali.tribbble.ui.archive;
 
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ViewGroup;
@@ -8,6 +7,7 @@ import android.widget.ImageView;
 
 import java.util.List;
 
+import me.selinali.tribbble.R;
 import me.selinali.tribbble.model.Shot;
 
 public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotViewHolder> {
@@ -19,6 +19,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
 
   private final List<Shot> mShots;
   private final ArchiveItemListener mListener;
+  private final int[] mPlaceholderIds;
 
   public ArchiveAdapter(List<Shot> shots, RecyclerView recyclerView, ArchiveItemListener listener) {
     mShots = shots;
@@ -26,6 +27,11 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
     ItemCallback simpleCallback = new ItemCallback(0, ItemTouchHelper.LEFT);
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
     itemTouchHelper.attachToRecyclerView(recyclerView);
+
+    mPlaceholderIds = new int[3];
+    mPlaceholderIds[0] = R.drawable.grid_item_placeholder;
+    mPlaceholderIds[1] = R.drawable.grid_item_placeholder_2;
+    mPlaceholderIds[2] = R.drawable.grid_item_placeholder_3;
   }
 
   public void insert(Shot shot, int position) {
@@ -42,9 +48,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
   public void onBindViewHolder(ShotViewHolder holder, int position) {
     Shot shot = mShots.get(position);
     ArchiveItemView view = (ArchiveItemView) holder.itemView;
-    ImageView imageView = view.getImageView();
-    ViewCompat.setTransitionName(imageView, String.format("transition_%d", shot.hashCode()));
-    view.bind(shot);
+    view.bind(shot, mPlaceholderIds[position % mPlaceholderIds.length]);
     view.setOnClickListener(v -> mListener.onClick(shot, view.getImageView()));
   }
 

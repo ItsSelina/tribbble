@@ -1,6 +1,7 @@
 package me.selinali.tribbble.ui.archive;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -15,9 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.model.Shot;
-import me.selinali.tribbble.ui.common.Bindable;
 
-public class ArchiveItemView extends RelativeLayout implements Bindable<Shot> {
+public class ArchiveItemView extends RelativeLayout {
 
   @BindView(R.id.imageview_shot) ImageView mShotImageView;
   @BindView(R.id.gif_label) View mGifLabel;
@@ -28,11 +28,11 @@ public class ArchiveItemView extends RelativeLayout implements Bindable<Shot> {
     ButterKnife.bind(this);
   }
 
-  @Override public void bind(Shot shot) {
+  public void bind(Shot shot, @DrawableRes int placeholderId) {
     mGifLabel.setVisibility(shot.isAnimated() ? VISIBLE : INVISIBLE);
     Glide.with(getContext())
         .load(shot.getImages().getHighResImage())
-        .placeholder(R.drawable.grid_item_placeholder)
+        .placeholder(placeholderId)
         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
         .into(new GlideDrawableImageViewTarget(mShotImageView) {
           @Override public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {

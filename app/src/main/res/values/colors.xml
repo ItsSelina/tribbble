@@ -12,4 +12,8 @@
 
     <color name="translucent_black">#20000000</color>
     <color name="transparent">#00000000</color>
+
+    <color name="placeholder_color_1">@color/colorPrimary</color>
+    <color name="placeholder_color_2">#1F1F1F</color>
+    <color name="placeholder_color_3">#1C1C1C</color>
 </resources>
