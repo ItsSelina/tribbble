@@ -1,0 +1,230 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textview_shot_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginRight="28dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        tools:text="Blah McBlahBlah"/>
+
+    <TextView
+        android:id="@+id/textview_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_shot_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:textColor="@color/textLight"
+        tools:text="June 24, 2016"/>
+
+    <LinearLayout
+        android:id="@+id/counts_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_date"
+        android:layout_marginBottom="16dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textview_likes_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_likes"
+                android:drawablePadding="4dp"
+                android:drawableTint="@color/textNormal"
+                android:gravity="center"
+                tools:text="4"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textview_views_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_views"
+                android:drawablePadding="4dp"
+                android:drawableTint="@color/textNormal"
+                android:gravity="center"
+                tools:text="1337"/>
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textview_buckets_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/bucket"
+                android:drawablePadding="4dp"
+                android:drawableTint="@color/textNormal"
+                android:gravity="center"
+                tools:text="20"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textview_comments_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_comment"
+                android:drawablePadding="4dp"
+                android:drawableTint="@color/textNormal"
+                android:gravity="center"
+                tools:text="20"/>
+        </FrameLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/counts_bar"
+        android:background="@color/divider"/>
+
+    <LinearLayout
+        android:id="@+id/colors_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_top"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
+
+        <FrameLayout
+            android:id="@+id/color_container_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/color_holder_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/color_container_right"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:id="@+id/color_holder_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"/>
+        </FrameLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/colors_container"
+        android:layout_marginBottom="16dp"
+        android:background="@color/divider"/>
+
+    <View
+        android:id="@+id/divider_middle"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/divider_bottom"
+        android:layout_below="@id/divider_top"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/divider"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageview_avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/divider_bottom"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="16dp"
+        app:civ_border_color="@color/divider"
+        app:civ_border_width="1dp"
+        tools:src="@color/colorAccent"/>
+
+    <LinearLayout
+        android:id="@+id/artist_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/imageview_avatar"
+        android:layout_alignTop="@id/imageview_avatar"
+        android:layout_toRightOf="@id/imageview_avatar"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textview_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textDark"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Priyesh Patel"/>
+
+        <TextView
+            android:id="@+id/textview_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textview_name"
+            android:layout_toRightOf="@id/imageview_avatar"
+            tools:text="Calabasas, CA"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textview_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageview_avatar"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        tools:text="A dank description"/>
+
+</merge>
