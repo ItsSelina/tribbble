@@ -31,8 +31,7 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
     ButterKnife.bind(this);
   }
 
-  @Override
-  public void bind(Shot shot) {
+  @Override public void bind(Shot shot) {
     Glide.with(getContext())
         .load(shot.getImages().getHighResImage())
         .placeholder(R.drawable.grid_item_placeholder)

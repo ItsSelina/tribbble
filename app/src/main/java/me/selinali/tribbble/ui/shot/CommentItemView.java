@@ -37,8 +37,7 @@ public class CommentItemView extends RelativeLayout implements Bindable<Comment>
         ViewUtils.dpToPx(16), ViewUtils.dpToPx(12));
   }
 
-  @Override
-  public void bind(Comment comment) {
+  @Override public void bind(Comment comment) {
     Glide.with(getContext()).load(comment.getUser().getAvatarUrl()).into(mAvatarImageView);
     mNameTextView.setText(comment.getUser().getName());
     mCommentTextView.setMovementMethod(LinkMovementMethod.getInstance());

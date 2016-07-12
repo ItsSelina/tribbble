@@ -39,21 +39,18 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
     notifyItemInserted(position);
   }
 
-  @Override
-  public ShotViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  @Override public ShotViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     return new ShotViewHolder(new ArchiveItemView(parent.getContext()));
   }
 
-  @Override
-  public void onBindViewHolder(ShotViewHolder holder, int position) {
+  @Override public void onBindViewHolder(ShotViewHolder holder, int position) {
     Shot shot = mShots.get(position);
     ArchiveItemView view = (ArchiveItemView) holder.itemView;
     view.bind(shot, mPlaceholderIds[position % mPlaceholderIds.length]);
     view.setOnClickListener(v -> mListener.onClick(shot, view.getImageView()));
   }
 
-  @Override
-  public int getItemCount() {
+  @Override public int getItemCount() {
     return mShots.size();
   }
 
