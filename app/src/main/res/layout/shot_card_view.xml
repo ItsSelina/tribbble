@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
        xmlns:tools="http://schemas.android.com/tools"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content">
 
@@ -27,7 +28,7 @@
             android:layout_below="@id/divider"
             android:gravity="center">
 
-            <TextView
+            <me.selinali.tribbble.ui.common.FontTextView
                 android:id="@+id/textview_shot_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,13 +36,13 @@
                 android:layout_marginBottom="4dp"
                 android:layout_marginLeft="28dp"
                 android:layout_marginRight="28dp"
-                android:fontFamily="sans-serif-medium"
+                app:weight="semibold"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
                 android:textSize="20dp"
                 tools:text="Blah McBlahBlah"/>
 
-            <TextView
+            <me.selinali.tribbble.ui.common.FontTextView
                 android:id="@+id/textview_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,7 +51,7 @@
                 android:layout_marginBottom="2dp"
                 tools:text="By Priyesh Patel"/>
 
-            <TextView
+            <me.selinali.tribbble.ui.common.FontTextView
                 android:id="@+id/textview_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,7 +61,7 @@
                 android:textColor="@color/textLight"
                 tools:text="June 24, 2016"/>
 
-            <TextView
+            <me.selinali.tribbble.ui.common.FontTextView
                 android:id="@+id/textview_views_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,7 +75,7 @@
                 android:gravity="center"
                 tools:text="1337"/>
 
-            <TextView
+            <me.selinali.tribbble.ui.common.FontTextView
                 android:id="@+id/textview_likes_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -86,7 +87,7 @@
                 android:gravity="center"
                 tools:text="4"/>
 
-            <TextView
+            <me.selinali.tribbble.ui.common.FontTextView
                 android:id="@+id/textview_buckets_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -106,7 +106,7 @@ public class BinaryBar extends CardView {
   }
 
   private View inflateViewFor(Item item) {
-    View view = View.inflate(getContext(), R.layout.bottom_bar_item, null);
+    View view = View.inflate(getContext(), R.layout.binary_bar_item, null);
     ((ImageView) view.findViewById(R.id.icon)).setImageDrawable(drawable(item.iconResourceId));
     ((TextView) view.findViewById(R.id.text)).setText(string(item.textResourceId));
     return view;

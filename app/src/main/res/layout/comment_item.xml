@@ -15,17 +15,17 @@
         app:civ_border_width="1dp"
         tools:src="@color/colorAccent"/>
 
-    <TextView
+    <me.selinali.tribbble.ui.common.FontTextView
         android:id="@+id/textview_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/imageview_avatar"
         android:textColor="@color/textDark"
         android:textSize="16dp"
-        android:textStyle="bold"
+        app:weight="bold"
         tools:text="Blah McBlahBlah"/>
 
-    <TextView
+    <me.selinali.tribbble.ui.common.FontTextView
         android:id="@+id/textview_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:layout_toRightOf="@id/imageview_avatar"
         tools:text="a brown fox jumped blah blah blah sf osrdgjoerj goerg jeorgjworg"/>
 
-    <TextView
+    <me.selinali.tribbble.ui.common.FontTextView
         android:id="@+id/textview_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
         android:layout_toRightOf="@id/imageview_avatar"
         tools:text="2 hours ago"/>
 
-    <TextView
+    <me.selinali.tribbble.ui.common.FontTextView
         android:id="@id/textview_likes_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

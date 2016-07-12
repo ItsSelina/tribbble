@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    style="@style/ButtonBar"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ButtonBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
@@ -17,11 +18,11 @@
         android:tint="@color/textNormal"
         tools:src="@drawable/ic_archive"/>
 
-    <TextView
+    <me.selinali.tribbble.ui.common.FontTextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
         android:textAllCaps="true"
+        app:weight="semibold"
         tools:text="Archive"/>
 </LinearLayout>
