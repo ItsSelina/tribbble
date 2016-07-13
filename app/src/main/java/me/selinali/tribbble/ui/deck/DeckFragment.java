@@ -70,10 +70,8 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
 
   private void loadNext() {
     _.unsubscribe(mSubscription);
-    mSubscription = Dribble.instance().getShots(mCurrentPage)
-        .flatMapIterable(shots -> shots)
-        .filter(DeckFragment::shouldShow)
-        .toList()
+    mSubscription = Dribble.instance()
+        .getShots(mCurrentPage, DeckFragment::shouldShow, shots -> shots.size() >= 5)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(this::bind, Throwable::printStackTrace);

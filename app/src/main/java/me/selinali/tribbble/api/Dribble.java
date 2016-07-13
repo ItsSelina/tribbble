@@ -17,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
+import rx.functions.Func1;
 
 public class Dribble {
 
@@ -47,6 +48,24 @@ public class Dribble {
 
   public Observable<List<Shot>> getShots(int page) {
     return mEndpoints.getShots(page);
+  }
+
+  /**
+   * Continuously hits the shots endpoint, filtering each shot by the given function
+   * and collecting until the predicate has been satisfied.
+   */
+  public Observable<List<Shot>> getShots(int page, Func1<Shot, Boolean> f, Func1<List<Shot>, Boolean> p) {
+    return getShots(page)
+        .flatMapIterable(shots -> shots)
+        .filter(f)
+        .toList()
+        .flatMap(shots -> {
+          if (p.call(shots)) {
+            return Observable.just(shots);
+          } else {
+            return Observable.just(shots).concatWith(getShots(page + 1, f, p));
+          }
+        });
   }
 
   public Observable<Shot> getShot(int id) {
