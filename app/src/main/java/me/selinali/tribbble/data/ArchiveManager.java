@@ -66,7 +66,7 @@ public class ArchiveManager {
   @SuppressLint("CommitPrefEdits")
   public void discard(Shot shot) {
     mDiscardedPreferences.edit()
-        .putString(String.valueOf(shot.getId()), mGson.toJson(shot))
+        .putInt(String.valueOf(shot.getId()), shot.getId())
         .commit();
   }
 
@@ -77,13 +77,6 @@ public class ArchiveManager {
   @SuppressLint("CommitPrefEdits")
   public void unarchive(Shot shot) {
     mArchivedPreferences.edit()
-        .remove(String.valueOf(shot.getId()))
-        .commit();
-  }
-
-  @SuppressLint("CommitPrefEdits")
-  public void unDiscard(Shot shot) {
-    mDiscardedPreferences.edit()
         .remove(String.valueOf(shot.getId()))
         .commit();
   }

@@ -58,8 +58,8 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
     View view = inflater.inflate(R.layout.fragment_archive, container, false);
     mUnbinder = ButterKnife.bind(this, view);
     setupPadding();
-    mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
+    mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
       private int previousDy;
 
       @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

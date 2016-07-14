@@ -111,7 +111,6 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     } else {
       mAdapter.addAll(shots);
     }
-    ViewUtils.fadeView(mProgressView, false, 150);
   }
 
   private void setupPadding() {
