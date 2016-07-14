@@ -1,7 +1,6 @@
 package me.selinali.tribbble.ui.shot;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.graphics.Palette;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -22,6 +21,8 @@ import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.utils.DateUtils;
 import me.selinali.tribbble.utils.StringUtils;
 
+import static me.selinali.tribbble.TribbbleApp.color;
+
 public class ShotDetailsView extends RelativeLayout {
 
   @BindView(R.id.textview_shot_name) TextView mShotNameTextView;
@@ -41,7 +42,7 @@ public class ShotDetailsView extends RelativeLayout {
     super(context, attrs);
     inflate(context, R.layout.shot_details_view, this);
     ButterKnife.bind(this);
-    setBackgroundColor(Color.parseColor("#fffafafa"));
+    setBackgroundColor(color(R.color.lighterGray));
   }
 
   public void bind(Shot shot) {

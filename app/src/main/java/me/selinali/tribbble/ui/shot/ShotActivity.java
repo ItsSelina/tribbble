@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,25 +27,24 @@ import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import org.parceler.Parcels;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble._;
 import me.selinali.tribbble.api.Dribble;
-import me.selinali.tribbble.model.Comment;
 import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.common.DividerItemDecoration;
-import me.selinali.tribbble.utils.ViewUtils;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
+import static me.selinali.tribbble.TribbbleApp.integer;
+
 public class ShotActivity extends AppCompatActivity {
 
+  private static final String TAG = ShotActivity.class.getSimpleName();
   private static final String EXTRA_SHOT = "EXTRA_SHOT";
 
   public static Intent launchIntentFor(Shot shot, Context context) {
@@ -92,7 +94,6 @@ public class ShotActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_shot);
     ButterKnife.bind(this);
-    setupPadding();
     overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
 
     mShot = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_SHOT));
@@ -101,23 +102,11 @@ public class ShotActivity extends AppCompatActivity {
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-    (mShot.isAnimated() ? mGifImageLoader : mStaticImageLoader).load(bitmap -> {
-      Palette.from(bitmap).maximumColorCount(8)
-          .generate(palette -> mShotDetailsView.bind(palette.getSwatches()));
-    });
+    (mShot.isAnimated() ? mGifImageLoader : mStaticImageLoader).load(bitmap ->
+        Palette.from(bitmap).maximumColorCount(8)
+            .generate(palette -> mShotDetailsView.bind(palette.getSwatches())));
 
-    mShotSubscription = Dribble.instance()
-        .getShot(mShot.getId())
-        .onErrorReturn(t -> mShot)
-        .flatMap(shot -> {
-          Observable<List<Comment>> comments = Dribble.instance().getComments(shot);
-          return Observable.zip(Observable.just(shot), comments, Shot::withComments);
-        })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(this::bindShot, throwable -> {
-          // TODO
-        });
+    load();
   }
 
   @Override protected void onDestroy() {
@@ -125,7 +114,21 @@ public class ShotActivity extends AppCompatActivity {
     _.unsubscribe(mShotSubscription);
   }
 
-  private void bindShot(Shot shot) {
+  private void load() {
+    mShotSubscription = Dribble.instance()
+        .getShot(mShot.getId())
+        .flatMap(shot -> Observable.zip(Observable.just(shot),
+            Dribble.instance().getComments(shot),
+            Shot::withComments
+        ))
+        .doOnError(this::handleError)
+        .onErrorReturn(t -> mShot)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(this::bind, t -> {});
+  }
+
+  private void bind(Shot shot) {
     mShot = shot;
     mShotDetailsView.bind(shot);
     mCommentsRecyclerView.setNestedScrollingEnabled(false);
@@ -135,12 +138,12 @@ public class ShotActivity extends AppCompatActivity {
     ViewCompat.animate(mShotContentContainer).alpha(1f).setDuration(200);
   }
 
-  private void setupPadding() {
-    mShotContentContainer.setPadding(
-        mShotContentContainer.getPaddingLeft(),
-        mShotContentContainer.getPaddingTop(),
-        mShotContentContainer.getPaddingRight(),
-        ViewUtils.getNavigationBarHeight());
+  private void handleError(Throwable throwable) {
+    Log.e(TAG, "Failed to load shot", throwable);
+    new Handler(getMainLooper()).postDelayed(() -> Snackbar.make(
+        mShotContentContainer, getString(R.string.error_loading), Snackbar.LENGTH_INDEFINITE)
+        .setAction(R.string.retry, v -> load())
+        .show(), integer(R.integer.slide_anim_time));
   }
 
   @Override public void onBackPressed() {

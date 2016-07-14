@@ -71,7 +71,10 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private void loadNext() {
     _.unsubscribe(mSubscription);
     mSubscription = Dribble.instance()
-        .getShots(mCurrentPage, DeckFragment::shouldShow, shots -> shots.size() >= 5)
+        .getShots(mCurrentPage, DeckFragment::shouldShow,
+            shots -> shots.size() >= 5,
+            page -> mCurrentPage = page
+        )
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(this::bind, Throwable::printStackTrace);
@@ -89,10 +92,6 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     return view;
   }
 
-  @Override public void onResume() {
-    super.onResume();
-  }
-
   @Override public void onDestroyView() {
     super.onDestroyView();
     mUnbinder.unbind();
@@ -100,10 +99,6 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   @Override public void bind(List<Shot> shots) {
-    if (shots.isEmpty()) {
-      mCurrentPage++;
-      loadNext();
-    }
     if (mAdapter == null) {
       mAdapter = new DeckAdapter(getContext(), shots);
       mCardStack.setListener(mDeckListener);

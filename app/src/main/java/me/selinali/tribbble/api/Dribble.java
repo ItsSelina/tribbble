@@ -17,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 public class Dribble {
@@ -38,9 +39,9 @@ public class Dribble {
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create(mGson))
         .client(new OkHttpClient.Builder().addInterceptor(chain ->
-                chain.proceed(chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer " + BuildConfig.DRIBBBLE_ACCESS_KEY)
-                    .build())
+            chain.proceed(chain.request().newBuilder()
+                .addHeader("Authorization", "Bearer " + BuildConfig.DRIBBBLE_ACCESS_KEY)
+                .build())
         ).build())
         .build()
         .create(Endpoints.class);
@@ -54,7 +55,10 @@ public class Dribble {
    * Continuously hits the shots endpoint, filtering each shot by the given function
    * and collecting until the predicate has been satisfied.
    */
-  public Observable<List<Shot>> getShots(int page, Func1<Shot, Boolean> f, Func1<List<Shot>, Boolean> p) {
+  public Observable<List<Shot>> getShots(int page,
+    /* Filters each shot           */    Func1<Shot, Boolean> f,
+    /* Evaluates collected shots   */    Func1<List<Shot>, Boolean> p,
+    /* Called when page increments */    Action1<Integer> onPageIncremented) {
     return getShots(page)
         .flatMapIterable(shots -> shots)
         .filter(f)
@@ -63,7 +67,9 @@ public class Dribble {
           if (p.call(shots)) {
             return Observable.just(shots);
           } else {
-            return Observable.just(shots).concatWith(getShots(page + 1, f, p));
+            int incrementedPage = page + 1;
+            onPageIncremented.call(incrementedPage);
+            return Observable.just(shots).concatWith(getShots(incrementedPage, f, p, onPageIncremented));
           }
         });
   }
@@ -77,13 +83,10 @@ public class Dribble {
   }
 
   private interface Endpoints {
-    @GET("shots")
-    Observable<List<Shot>> getShots(@Query("page") int page);
+    @GET("shots") Observable<List<Shot>> getShots(@Query("page") int page);
 
-    @GET("shots/{id}")
-    Observable<Shot> getShot(@Path("id") int id);
+    @GET("shots/{id}") Observable<Shot> getShot(@Path("id") int id);
 
-    @GET("shots/{id}/comments")
-    Observable<List<Comment>> getComments(@Path("id") int id);
+    @GET("shots/{id}/comments") Observable<List<Comment>> getComments(@Path("id") int id);
   }
 }

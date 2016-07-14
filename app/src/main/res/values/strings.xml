@@ -3,6 +3,8 @@
     <string name="archive">Archive</string>
     <string name="deck">Deck</string>
     <string name="no_comments_yet">No comments yet</string>
+    <string name="error_loading">Oh no, an error occurred.</string>
+    <string name="retry">Retry</string>
 
     <plurals name="about_hours_ago">
         <item quantity="one">about 1 hour ago</item>

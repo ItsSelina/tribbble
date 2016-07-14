@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.PluralsRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
@@ -34,6 +35,10 @@ public class TribbbleApp extends Application {
 
   public static Drawable drawable(@DrawableRes int resId) {
     return ContextCompat.getDrawable(sContext, resId);
+  }
+
+  public static int integer(@IntegerRes int resId) {
+    return sContext.getResources().getInteger(resId);
   }
 
   public static String string(@StringRes int resId) {
