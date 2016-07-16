@@ -11,9 +11,36 @@
         android:layout_gravity="center"
         android:paddingTop="28dp"/>
 
+    <LinearLayout
+        android:id="@+id/conection_error_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/cloud"
+            android:tint="@color/lightGray"/>
+
+        <TextView
+            android:id="@+id/textview_retry"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/retry"
+            android:textColor="@color/colorAccent"/>
+
+    </LinearLayout>
+
     <com.wenchao.cardstack.CardStack
-        android:id="@+id/card_stack"
         xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_stack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clipChildren="false"
@@ -22,6 +49,7 @@
         android:paddingBottom="@dimen/bottom_bar_height_with_margin"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
-        android:paddingTop="28dp"/>
+        android:paddingTop="28dp"
+        android:visibility="invisible"/>
 
 </FrameLayout>

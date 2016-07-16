@@ -2,6 +2,7 @@ package me.selinali.tribbble.ui.deck;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,11 @@ import android.view.ViewGroup;
 import com.wenchao.cardstack.CardStack;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble._;
@@ -34,10 +37,12 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     return new DeckFragment();
   }
 
+  private static final String TAG = DeckFragment.class.getSimpleName();
   private static final int PRELOAD_THRESHOLD = 5;
 
   @BindView(R.id.card_stack) CardStack mCardStack;
   @BindView(R.id.progress_view) View mProgressView;
+  @BindView(R.id.conection_error_container) View mErrorContainer;
 
   private Subscription mSubscription;
   private Unbinder mUnbinder;
@@ -50,7 +55,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
       mCurrentPosition++;
       if (mAdapter.getCount() - swipedIndex <= PRELOAD_THRESHOLD) {
         mCurrentPage++;
-        loadNext();
+        loadNext(0);
       }
 
       if (direction == RIGHT) {
@@ -68,7 +73,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     }
   };
 
-  private void loadNext() {
+  private void loadNext(int delay) {
     _.unsubscribe(mSubscription);
     mSubscription = Dribble.instance()
         .getShots(mCurrentPage,
@@ -76,14 +81,15 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
             shots -> shots.size() >= 5,
             page -> mCurrentPage = page
         )
+        .delaySubscription(delay, TimeUnit.MILLISECONDS)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(this::bind, Throwable::printStackTrace);
+        .subscribe(this::bind, this::handleError);
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    loadNext();
+    loadNext(0);
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
@@ -100,6 +106,7 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   @Override public void bind(List<Shot> shots) {
+    ViewUtils.fadeView(mCardStack, true, 250);
     if (mAdapter == null) {
       mAdapter = new DeckAdapter(getContext(), shots);
       mCardStack.setListener(mDeckListener);
@@ -109,15 +116,29 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
     }
   }
 
+  @OnClick(R.id.textview_retry) public void onRetryClicked() {
+    mProgressView.setVisibility(View.VISIBLE);
+    ViewUtils.fadeView(mErrorContainer, false, 250);
+    loadNext(500);
+  }
+
   private void setupPadding() {
     int navigationBarHeight = ViewUtils.getNavigationBarHeight();
     mCardStack.setPadding(ViewUtils.dpToPx(14), ViewUtils.dpToPx(52),
         ViewUtils.dpToPx(14), navigationBarHeight + ViewUtils.dpToPx(80));
     mProgressView.setPadding(0, 0, 0, navigationBarHeight + ViewUtils.dpToPx(80));
+    mErrorContainer.setPadding(0, 0, 0, navigationBarHeight);
   }
 
   private static boolean shouldShow(Shot shot) {
     return !ArchiveManager.instance().isArchived(shot) &&
         !ArchiveManager.instance().isDiscarded(shot);
+  }
+
+  private void handleError(Throwable throwable) {
+    Log.e(TAG, "Failed to load shot", throwable);
+    mProgressView.setVisibility(View.INVISIBLE);
+    ViewUtils.fadeView(mCardStack, false, 250);
+    ViewUtils.fadeView(mErrorContainer, true, 250);
   }
 }
