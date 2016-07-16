@@ -71,7 +71,8 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   private void loadNext() {
     _.unsubscribe(mSubscription);
     mSubscription = Dribble.instance()
-        .getShots(mCurrentPage, DeckFragment::shouldShow,
+        .getShots(mCurrentPage,
+            DeckFragment::shouldShow,
             shots -> shots.size() >= 5,
             page -> mCurrentPage = page
         )
