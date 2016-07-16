@@ -6,7 +6,10 @@ import android.graphics.PorterDuffColorFilter;
 import android.support.annotation.ColorRes;
 import android.support.v4.view.ViewCompat;
 import android.util.TypedValue;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -21,7 +24,9 @@ public final class ViewUtils {
   }
 
   public static int getNavigationBarHeight() {
-    return getInternalDimension("navigation_bar_height");
+    boolean hasMenuKey = ViewConfiguration.get(TribbbleApp.context()).hasPermanentMenuKey();
+    boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+    return (!hasMenuKey && !hasBackKey) ? getInternalDimension("navigation_bar_height") : 0;
   }
 
   private static int getInternalDimension(String name) {
@@ -35,19 +40,9 @@ public final class ViewUtils {
         TribbbleApp.context().getResources().getDisplayMetrics());
   }
 
-  public static void setTopMargin(View view, int topMargin) {
-    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-    params.setMargins(params.leftMargin, topMargin, params.rightMargin, params.bottomMargin);
-  }
-
   public static void setBottomMargin(View view, int bottomMargin) {
     ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
     params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, bottomMargin);
-  }
-
-  public static void setRightMargin(View view, int rightMargin) {
-    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-    params.setMargins(params.leftMargin, params.topMargin, rightMargin, params.bottomMargin);
   }
 
   public static void applyColorFilter(ImageView imageView, @ColorRes int resId) {
