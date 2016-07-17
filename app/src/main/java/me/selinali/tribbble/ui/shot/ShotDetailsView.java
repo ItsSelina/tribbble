@@ -6,6 +6,7 @@ import android.support.v7.graphics.Palette;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ public class ShotDetailsView extends RelativeLayout {
   @BindView(R.id.textview_name) TextView mArtistNameTextView;
   @BindView(R.id.textview_location) TextView mArtistLocationTextView;
   @BindView(R.id.textview_description) TextView mDescriptionTextView;
+  @BindView(R.id.divider_bottom) View mBottomDivider;
 
   public ShotDetailsView(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -74,6 +76,10 @@ public class ShotDetailsView extends RelativeLayout {
   }
 
   public void bind(List<Palette.Swatch> swatches) {
+    if (swatches.size() < 2) {
+      mBottomDivider.setVisibility(GONE);
+      return;
+    }
     for (int i = 0; i < swatches.size(); i++) {
       ColorView view = new ColorView(getContext(), swatches.get(i).getRgb());
       if (i % 2 == 0) mColorsPaneLeft.addView(view);

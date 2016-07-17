@@ -57,7 +57,6 @@ public class ShotActivity extends AppCompatActivity {
   @BindView(R.id.shot_details_view) ShotDetailsView mShotDetailsView;
   @BindView(R.id.imageview_shot) ImageView mShotImageView;
   @BindView(R.id.recyclerview_comments) RecyclerView mCommentsRecyclerView;
-  @BindView(R.id.progress_container) View mProgressContainer;
 
   private Shot mShot;
   private Subscription mShotSubscription;
