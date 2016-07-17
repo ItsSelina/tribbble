@@ -15,6 +15,8 @@ import me.selinali.tribbble.model.Shot;
 import me.selinali.tribbble.ui.common.Bindable;
 import me.selinali.tribbble.utils.DateUtils;
 
+import static me.selinali.tribbble.utils.ViewUtils.tintDrawable;
+
 public class ShotCardView extends CardView implements Bindable<Shot> {
 
   @BindView(R.id.imageview_shot) ImageView mShotImageView;
@@ -29,6 +31,10 @@ public class ShotCardView extends CardView implements Bindable<Shot> {
     super(context);
     inflate(context, R.layout.shot_card_view, this);
     ButterKnife.bind(this);
+
+    tintDrawable(mLikesTextView, 0);
+    tintDrawable(mViewsTextView, 0);
+    tintDrawable(mBucketsTextView, 0);
   }
 
   @Override public void bind(Shot shot) {

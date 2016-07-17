@@ -1,6 +1,7 @@
 package me.selinali.tribbble.ui.shot;
 
 import android.content.Context;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.graphics.Palette;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -43,6 +44,14 @@ public class ShotDetailsView extends RelativeLayout {
     inflate(context, R.layout.shot_details_view, this);
     ButterKnife.bind(this);
     setBackgroundColor(color(R.color.lighterGray));
+
+    for (TextView v : new TextView[]{mLikesTextView, mViewsTextView, mBucketsTextView, mCommentsTextView}) {
+      DrawableCompat.setTint(v.getCompoundDrawables()[0], color(R.color.textNormal));
+    }
+    DrawableCompat.setTint(mLikesTextView.getCompoundDrawables()[0], color(R.color.textNormal));
+    DrawableCompat.setTint(mViewsTextView.getCompoundDrawables()[0], color(R.color.textNormal));
+    DrawableCompat.setTint(mBucketsTextView.getCompoundDrawables()[0], color(R.color.textNormal));
+    DrawableCompat.setTint(mCommentsTextView.getCompoundDrawables()[0], color(R.color.textNormal));
   }
 
   public void bind(Shot shot) {

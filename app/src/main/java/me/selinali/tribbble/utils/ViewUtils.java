@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.support.annotation.ColorRes;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.TypedValue;
 import android.view.KeyCharacterMap;
@@ -12,8 +13,12 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import me.selinali.tribbble.R;
 import me.selinali.tribbble.TribbbleApp;
+
+import static me.selinali.tribbble.TribbbleApp.color;
 
 public final class ViewUtils {
 
@@ -58,5 +63,9 @@ public final class ViewUtils {
       ViewCompat.animate(view).alpha(0f).setDuration(duration)
           .withEndAction(() -> view.setVisibility(View.INVISIBLE));
     }
+  }
+
+  public static void tintDrawable(TextView textView, int position) {
+      DrawableCompat.setTint(textView.getCompoundDrawables()[position], color(R.color.textNormal));
   }
 }

@@ -53,7 +53,6 @@
                 android:layout_gravity="center"
                 android:drawableLeft="@drawable/ic_likes"
                 android:drawablePadding="4dp"
-                android:drawableTint="@color/textNormal"
                 android:gravity="center"
                 tools:text="4"/>
         </FrameLayout>
@@ -70,7 +69,6 @@
                 android:layout_gravity="center"
                 android:drawableLeft="@drawable/ic_views"
                 android:drawablePadding="4dp"
-                android:drawableTint="@color/textNormal"
                 android:gravity="center"
                 tools:text="1337"/>
         </FrameLayout>
@@ -88,7 +86,6 @@
                 android:layout_gravity="center"
                 android:drawableLeft="@drawable/bucket"
                 android:drawablePadding="4dp"
-                android:drawableTint="@color/textNormal"
                 android:gravity="center"
                 tools:text="20"/>
         </FrameLayout>
@@ -105,7 +102,6 @@
                 android:layout_gravity="center"
                 android:drawableLeft="@drawable/ic_comment"
                 android:drawablePadding="4dp"
-                android:drawableTint="@color/textNormal"
                 android:gravity="center"
                 tools:text="20"/>
         </FrameLayout>
