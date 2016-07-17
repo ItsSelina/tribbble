@@ -11,12 +11,12 @@
     </style>
 
     <style name="AppTheme.TranslucentBars">
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@color/translucent_bars</item>
+        <item name="android:navigationBarColor">@color/translucent_bars</item>
     </style>
 
     <style name="AppTheme.TranslucentStatusBar">
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:statusBarColor">@color/translucent_bars</item>
     </style>
 
     <style name="ButtonBar" parent="Base.Widget.AppCompat.Button.Borderless">
@@ -26,6 +26,6 @@
         <item name="android:layout_marginRight">4dp</item>
     </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>

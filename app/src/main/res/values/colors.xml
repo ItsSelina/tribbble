@@ -11,6 +11,7 @@
     <color name="lightGray">#EEEEEE</color>
     <color name="lighterGray">#FFFAFAFA</color>
 
+    <color name="translucent_bars">#66000000</color>
     <color name="translucent_black">#20000000</color>
     <color name="transparent">#00000000</color>
 

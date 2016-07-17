@@ -95,6 +95,8 @@ public class ShotActivity extends AppCompatActivity {
     setContentView(R.layout.activity_shot);
     ButterKnife.bind(this);
     overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 
     mShot = Parcels.unwrap(getIntent().getParcelableExtra(EXTRA_SHOT));
 
