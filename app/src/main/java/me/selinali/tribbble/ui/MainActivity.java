@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,9 +18,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.model.Shot;
+import me.selinali.tribbble.ui.archive.ArchiveFragment;
 import me.selinali.tribbble.ui.common.BinaryBar;
 import me.selinali.tribbble.ui.common.BinaryBar.Item;
-import me.selinali.tribbble.ui.archive.ArchiveFragment;
 import me.selinali.tribbble.ui.deck.DeckFragment;
 import me.selinali.tribbble.utils.ViewUtils;
 
@@ -32,9 +35,15 @@ public class MainActivity extends AppCompatActivity {
   private final Map<String, Fragment> mFragments = new HashMap<>(2);
   private final Animation mAnimation = new AlphaAnimation(0, 1);
   private final Item mLeftItem = new Item(R.string.deck, R.drawable.ic_deck,
-      v -> swapFragment(TAG_DECK_FRAGMENT));
+      v -> {
+        Answers.getInstance().logCustom(new CustomEvent("Deck clicked"));
+        swapFragment(TAG_DECK_FRAGMENT);
+      });
   private final Item mRightItem = new Item(R.string.archive, R.drawable.ic_archive,
-      v -> swapFragment(TAG_ARCHIVE_FRAGMENT));
+      v -> {
+        Answers.getInstance().logCustom(new CustomEvent("Archive clicked"));
+        swapFragment(TAG_ARCHIVE_FRAGMENT);
+      });
 
   {
     mAnimation.setDuration(200);

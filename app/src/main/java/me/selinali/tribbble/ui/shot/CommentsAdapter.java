@@ -25,7 +25,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     if (viewType == TYPE_COMMENT) {
       return new CommentViewHolder(new CommentItemView(parent.getContext()));
     } else if (viewType == TYPE_NO_COMMENTS) {
-      View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.no_comments_view, parent, false);
+      View view = LayoutInflater.from(parent.getContext())
+          .inflate(R.layout.no_comments_view, parent, false);
       return new NoCommentsViewHolder(view);
     } else {
       return null;
@@ -46,13 +47,13 @@ public class CommentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     return mComments.isEmpty() ? TYPE_NO_COMMENTS : TYPE_COMMENT;
   }
 
-  public static class CommentViewHolder extends RecyclerView.ViewHolder {
+  static class CommentViewHolder extends RecyclerView.ViewHolder {
     public CommentViewHolder(CommentItemView itemView) {
       super(itemView);
     }
   }
 
-  public static class NoCommentsViewHolder extends RecyclerView.ViewHolder {
+  static class NoCommentsViewHolder extends RecyclerView.ViewHolder {
     public NoCommentsViewHolder(View itemView) {
       super(itemView);
     }

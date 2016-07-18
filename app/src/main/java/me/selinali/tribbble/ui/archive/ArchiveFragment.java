@@ -80,8 +80,14 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   @Override public void bind(List<Shot> shots) {
-    mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
     mRecyclerView.setAdapter(mAdapter = new ArchiveAdapter(shots, mRecyclerView, mItemListener));
+    GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+    layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+      @Override public int getSpanSize(int position) {
+        return mAdapter.getItemViewType(position) == ArchiveAdapter.TYPE_SHOT ? 1 : 2;
+      }
+    });
+    mRecyclerView.setLayoutManager(layoutManager);
   }
 
   public void insertFirst(Shot shot) {

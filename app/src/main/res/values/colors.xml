@@ -8,6 +8,7 @@
     <color name="textNormal">#757575</color>
     <color name="textLight">#50000000</color>
     <color name="textDark">#616161</color>
+    <color name="mediumGray">#BDBDBD</color>
     <color name="lightGray">#EEEEEE</color>
     <color name="lighterGray">#FFFAFAFA</color>
 

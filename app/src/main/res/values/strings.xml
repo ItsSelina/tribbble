@@ -5,6 +5,8 @@
     <string name="no_comments_yet">No comments yet</string>
     <string name="error_loading">Sorry, an error occurred.</string>
     <string name="retry">Retry</string>
+    <string name="no_archived_shots">No archived shots</string>
+    <string name="swipe_right_to_archive">Swipe right in the deck to archive shots.</string>
 
     <plurals name="about_hours_ago">
         <item quantity="one">about 1 hour ago</item>

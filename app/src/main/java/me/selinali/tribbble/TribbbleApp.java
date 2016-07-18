@@ -10,7 +10,10 @@ import android.support.annotation.PluralsRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.stetho.Stetho;
+
+import io.fabric.sdk.android.Fabric;
 
 public class TribbbleApp extends Application {
 
@@ -21,6 +24,7 @@ public class TribbbleApp extends Application {
     if (BuildConfig.DEBUG) {
       Stetho.initializeWithDefaults(this);
     }
+    Fabric.with(this, new Crashlytics());
 
     sContext = getApplicationContext();
   }

@@ -2,6 +2,8 @@ package me.selinali.tribbble.ui.archive;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -10,12 +12,16 @@ import java.util.List;
 import me.selinali.tribbble.R;
 import me.selinali.tribbble.model.Shot;
 
-public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotViewHolder> {
+public class ArchiveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
   public interface ArchiveItemListener {
     void onClick(Shot shot, ImageView imageView);
+
     void onSwipe(Shot shot);
   }
+
+  static final int TYPE_SHOT = 0;
+  static final int TYPE_EMPTY = 1;
 
   private final List<Shot> mShots;
   private final ArchiveItemListener mListener;
@@ -35,29 +41,42 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
   }
 
   public void insert(Shot shot, int position) {
+    boolean wasEmpty = mShots.isEmpty();
     mShots.add(position, shot);
-    notifyItemInserted(position);
+    if (wasEmpty) {
+      notifyItemChanged(0);
+    } else {
+      notifyItemInserted(position);
+    }
   }
 
-  @Override public ShotViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    return new ShotViewHolder(new ArchiveItemView(parent.getContext()));
+  @Override public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    if (viewType == TYPE_SHOT) {
+      return new ShotViewHolder(new ArchiveItemView(parent.getContext()));
+    } else if (viewType == TYPE_EMPTY) {
+      View view = LayoutInflater.from(parent.getContext())
+          .inflate(R.layout.empty_archive_item, parent, false);
+      return new EmptyViewHolder(view);
+    } else {
+      return null;
+    }
   }
 
-  @Override public void onBindViewHolder(ShotViewHolder holder, int position) {
-    Shot shot = mShots.get(position);
-    ArchiveItemView view = (ArchiveItemView) holder.itemView;
-    view.bind(shot, mPlaceholderIds[position % mPlaceholderIds.length]);
-    view.setOnClickListener(v -> mListener.onClick(shot, view.getImageView()));
+  @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    if (holder instanceof ShotViewHolder) {
+      Shot shot = mShots.get(position);
+      ArchiveItemView view = (ArchiveItemView) holder.itemView;
+      view.bind(shot, mPlaceholderIds[position % mPlaceholderIds.length]);
+      view.setOnClickListener(v -> mListener.onClick(shot, view.getImageView()));
+    }
   }
 
   @Override public int getItemCount() {
-    return mShots.size();
+    return mShots.isEmpty() ? 1 : mShots.size();
   }
 
-  class ShotViewHolder extends RecyclerView.ViewHolder {
-    public ShotViewHolder(ArchiveItemView itemView) {
-      super(itemView);
-    }
+  @Override public int getItemViewType(int position) {
+    return mShots.isEmpty() ? TYPE_EMPTY : TYPE_SHOT;
   }
 
   private class ItemCallback extends ItemTouchHelper.SimpleCallback {
@@ -69,11 +88,27 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ShotView
       return false;
     }
 
+    @Override public int getSwipeDirs(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+      return (viewHolder instanceof EmptyViewHolder) ? 0 : super.getSwipeDirs(recyclerView, viewHolder);
+    }
+
     @Override public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
       int position = viewHolder.getAdapterPosition();
       ArchiveAdapter.this.notifyItemRemoved(position);
       mListener.onSwipe(mShots.get(position));
       mShots.remove(position);
+    }
+  }
+
+  static class ShotViewHolder extends RecyclerView.ViewHolder {
+    public ShotViewHolder(ArchiveItemView itemView) {
+      super(itemView);
+    }
+  }
+
+  static class EmptyViewHolder extends RecyclerView.ViewHolder {
+    public EmptyViewHolder(View itemView) {
+      super(itemView);
     }
   }
 }

@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.wenchao.cardstack.CardStack;
 
 import java.util.List;
@@ -59,10 +62,12 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
       }
 
       if (direction == RIGHT) {
+        Answers.getInstance().logCustom(new CustomEvent("Shot Archived"));
         Shot shot = mAdapter.getItem(swipedIndex);
         ArchiveManager.instance().archive(shot);
         ((MainActivity) getActivity()).notifyShotArchived(shot);
       } else if (direction == LEFT) {
+        Answers.getInstance().logCustom(new CustomEvent("Shot Discarded"));
         ArchiveManager.instance().discard(mAdapter.getItem(swipedIndex));
       }
     }
@@ -136,7 +141,8 @@ public class DeckFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   private void handleError(Throwable throwable) {
-    Log.e(TAG, "Failed to load shot", throwable);
+    Log.d(TAG, "Failed to load shot", throwable);
+    Crashlytics.logException(throwable);
     mProgressView.setVisibility(View.INVISIBLE);
     ViewUtils.fadeView(mCardStack, false, 250);
     ViewUtils.fadeView(mErrorContainer, true, 250);

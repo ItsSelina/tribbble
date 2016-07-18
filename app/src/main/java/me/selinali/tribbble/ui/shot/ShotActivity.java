@@ -24,6 +24,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.crashlytics.android.Crashlytics;
 
 import org.parceler.Parcels;
 
@@ -139,7 +140,8 @@ public class ShotActivity extends AppCompatActivity {
   }
 
   private void handleError(Throwable throwable) {
-    Log.e(TAG, "Failed to load shot", throwable);
+    Log.d(TAG, "Failed to load shot", throwable);
+    Crashlytics.logException(throwable);
     new Handler(getMainLooper()).postDelayed(() -> Snackbar.make(
         mShotContentContainer, getString(R.string.error_loading), Snackbar.LENGTH_INDEFINITE)
         .setAction(R.string.retry, v -> load())
