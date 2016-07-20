@@ -50,16 +50,16 @@ public class MainActivity extends AppCompatActivity {
 
   private final Map<String, Fragment> mFragments = new HashMap<>(2);
   private final Animation mAnimation = new AlphaAnimation(0, 1);
-  private final Item mLeftItem = new Item(R.string.deck, R.drawable.ic_deck,
-      v -> {
-        Answers.getInstance().logCustom(new CustomEvent("Deck clicked"));
-        swapFragment(TAG_DECK_FRAGMENT);
-      });
-  private final Item mRightItem = new Item(R.string.archive, R.drawable.ic_archive,
-      v -> {
-        Answers.getInstance().logCustom(new CustomEvent("Archive clicked"));
-        swapFragment(TAG_ARCHIVE_FRAGMENT);
-      });
+
+  private final Item mLeftItem = new Item(R.string.deck, R.drawable.ic_deck, v -> {
+    Answers.getInstance().logCustom(new CustomEvent("Deck clicked"));
+    swapFragment(TAG_DECK_FRAGMENT);
+  });
+
+  private final Item mRightItem = new Item(R.string.archive, R.drawable.ic_archive, v -> {
+    Answers.getInstance().logCustom(new CustomEvent("Archive clicked"));
+    swapFragment(TAG_ARCHIVE_FRAGMENT);
+  });
 
   {
     mAnimation.setDuration(200);
@@ -79,6 +79,19 @@ public class MainActivity extends AppCompatActivity {
 
     swapFragment(TAG_DECK_FRAGMENT);
     mBinaryBar.addItems(mLeftItem, mRightItem);
+  }
+
+  @Override protected void onResume() {
+    super.onResume();
+    if (!mFragments.isEmpty()) {
+      FragmentManager manager = getSupportFragmentManager();
+      for (String tag : mFragments.keySet()) {
+        Fragment fragment = manager.findFragmentByTag(tag);
+        if (fragment != null) {
+          manager.beginTransaction().attach(fragment).commit();
+        }
+      }
+    }
   }
 
   private void swapFragment(String tag) {
