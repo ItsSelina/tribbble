@@ -85,7 +85,8 @@ public class Dribble {
           } else {
             int incrementedPage = page + 1;
             onPageIncremented.call(incrementedPage);
-            return Observable.just(shots).concatWith(getShots(incrementedPage, f, p, onPageIncremented));
+            return Observable.just(shots)
+                .concatWith(getShots(incrementedPage, f, p, onPageIncremented));
           }
         });
   }
