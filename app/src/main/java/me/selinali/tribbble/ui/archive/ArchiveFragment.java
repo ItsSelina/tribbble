@@ -65,10 +65,6 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
     }
   };
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-  }
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_archive, container, false);
@@ -107,8 +103,10 @@ public class ArchiveFragment extends Fragment implements Bindable<List<Shot>> {
   }
 
   public void insertFirst(Shot shot) {
-    mAdapter.insert(shot, 0);
-    mRecyclerView.scrollToPosition(0);
+    if (mAdapter != null) {
+      mAdapter.insert(shot, 0);
+      mRecyclerView.scrollToPosition(0);
+    }
   }
 
   private void setupPadding() {
