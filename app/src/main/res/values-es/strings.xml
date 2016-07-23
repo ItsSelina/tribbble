@@ -1,0 +1,35 @@
+<!--
+  ~ Copyright 2016 Selina Li
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  --><resources>
+    <string name="app_name" translatable="false">"Tribbble"</string>
+    <string name="archive">"Favoritos"</string>
+    <string name="deck">"Cubierta"</string>
+    <string name="no_comments_yet">"Sin comentarios"</string>
+    <string name="error_loading">"Lo sentimos, ha ocurrido un error."</string>
+    <string name="retry">"Reintentar"</string>
+    <string name="no_archived_shots">"No hay imágenes en favoritos"</string>
+    <string name="swipe_right_to_archive">"Deslíza hacia la derecha en la cubierta para añadir a favoritos."</string>
+
+    <plurals name="about_hours_ago">
+        <item quantity="one">"hace 1 hora"</item>
+        <item quantity="other">"hace %s horas"</item>
+    </plurals>
+
+    <plurals name="about_minutes_ago">
+        <item quantity="one">"hace 1 minuto"</item>
+        <item quantity="other">"hace %s minutos"</item>
+    </plurals>
+
+</resources>
