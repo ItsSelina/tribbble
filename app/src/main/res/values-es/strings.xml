@@ -13,23 +13,23 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   --><resources>
-    <string name="app_name" translatable="false">"Tribbble"</string>
-    <string name="archive">"Favoritos"</string>
-    <string name="deck">"Cubierta"</string>
-    <string name="no_comments_yet">"Sin comentarios"</string>
-    <string name="error_loading">"Lo sentimos, ha ocurrido un error."</string>
-    <string name="retry">"Reintentar"</string>
-    <string name="no_archived_shots">"No hay imágenes en favoritos"</string>
-    <string name="swipe_right_to_archive">"Deslíza hacia la derecha en la cubierta para añadir a favoritos."</string>
+    <string name="app_name" translatable="false">Tribbble</string>
+    <string name="archive">Favoritos</string>
+    <string name="deck">Portada</string>
+    <string name="no_comments_yet">Sin comentarios</string>
+    <string name="error_loading">Lo sentimos, ha ocurrido un error.</string>
+    <string name="retry">Reintentar</string>
+    <string name="no_archived_shots">No hay imágenes en favoritos</string>
+    <string name="swipe_right_to_archive">Deslíza hacia la derecha en la portada para añadir a favoritos.</string>
 
     <plurals name="about_hours_ago">
-        <item quantity="one">"hace 1 hora"</item>
-        <item quantity="other">"hace %s horas"</item>
+        <item quantity="one">hace 1 hora</item>
+        <item quantity="other">hace %s horas</item>
     </plurals>
 
     <plurals name="about_minutes_ago">
-        <item quantity="one">"hace 1 minuto"</item>
-        <item quantity="other">"hace %s minutos"</item>
+        <item quantity="one">hace 1 minuto</item>
+        <item quantity="other">hace %s minutos</item>
     </plurals>
 
 </resources>
