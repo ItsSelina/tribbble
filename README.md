@@ -4,6 +4,9 @@ tribbble
 
 A place to browse for design inspiration.
 
+Available in the Play Store: https://play.google.com/store/apps/details?id=me.selinali.tribbble
+<br><br>
+
 <img src="https://raw.githubusercontent.com/ItsSelina/tribble/master/screenshots/deck.png" width="360"/>
 <img src="https://raw.githubusercontent.com/ItsSelina/tribble/master/screenshots/archive.png" width="360"/>
 <img src="https://raw.githubusercontent.com/ItsSelina/tribble/master/screenshots/palette.png" width="360"/>
