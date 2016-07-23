@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">Tribbble</string>
+    <string name="app_name" translatable="false">Tribbble</string>
     <string name="archive">Archive</string>
     <string name="deck">Deck</string>
     <string name="no_comments_yet">No comments yet</string>
