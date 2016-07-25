@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tribbble</string>
+    <string name="archive">Favoris</string>
+    <string name="deck">Accueil</string>
+    <string name="error_loading">Désolé, une erreur est survenue.</string>
+    <string name="no_archived_shots">Aucun shot en favoris</string>
+    <string name="no_comments_yet">Aucun commentaire</string>
+    <string name="swipe_right_to_archive">Glissez vers la droite pour mettre un shot en favoris</string>
+    <string name="retry">Ré-essayer</string>
+
+    <plurals name="about_hours_ago">
+        <item quantity="one">il y a environ 1 heure</item>
+        <item quantity="other">il y a environ %s heures</item>
+    </plurals>
+
+    <plurals name="about_minutes_ago">
+        <item quantity="one">il y a environ 1 minute</item>
+        <item quantity="other">il y a environ %s minutes</item>
+    </plurals>
+</resources>
