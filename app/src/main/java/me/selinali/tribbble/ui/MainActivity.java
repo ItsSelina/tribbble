@@ -17,6 +17,7 @@
 package me.selinali.tribbble.ui;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -81,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
   private void swapFragment(String tag) {
     FragmentManager manager = getSupportFragmentManager();
-    Fragment currentFragment = manager.findFragmentByTag(tag);
-    if (currentFragment != null && currentFragment.isVisible()) {
+    Fragment targetFragment = manager.findFragmentByTag(tag);
+    if (targetFragment != null && targetFragment.isVisible()) {
       return;
     }
 
@@ -103,6 +104,29 @@ public class MainActivity extends AppCompatActivity {
       manager.beginTransaction()
           .hide(manager.findFragmentByTag(otherTag))
           .commit();
+    }
+    if (tag.equals(TAG_DECK_FRAGMENT)) showBottomBar(true);
+  }
+
+  @Nullable private String getVisibleFragmentTag() {
+    FragmentManager manager = getSupportFragmentManager();
+    Fragment fragment = manager.findFragmentByTag(TAG_DECK_FRAGMENT);
+    if (fragment != null && fragment.isVisible()) {
+      return TAG_DECK_FRAGMENT;
+    } else if ((fragment = manager.findFragmentByTag(TAG_ARCHIVE_FRAGMENT)) != null &&
+        fragment.isVisible()) {
+      return TAG_ARCHIVE_FRAGMENT;
+    } else {
+      return null;
+    }
+  }
+
+  @Override public void onBackPressed() {
+    String visibleFragmentTag = getVisibleFragmentTag();
+    if (visibleFragmentTag == null || visibleFragmentTag.equals(TAG_DECK_FRAGMENT)) {
+      super.onBackPressed();
+    } else {
+      mBinaryBar.click(BinaryBar.LEFT);
     }
   }
 

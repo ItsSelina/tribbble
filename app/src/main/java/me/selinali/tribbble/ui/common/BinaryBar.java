@@ -18,6 +18,7 @@ package me.selinali.tribbble.ui.common;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
@@ -26,6 +27,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import lombok.AllArgsConstructor;
 import me.selinali.tribbble.R;
@@ -36,6 +40,12 @@ import static me.selinali.tribbble.TribbbleApp.drawable;
 import static me.selinali.tribbble.TribbbleApp.string;
 
 public class BinaryBar extends CardView {
+
+  @Retention(RetentionPolicy.SOURCE)
+  @IntDef ({LEFT, RIGHT})
+  public @interface Position {}
+  public static final int LEFT = 0;
+  public static final int RIGHT = 1;
 
   @AllArgsConstructor
   public static class Item {
@@ -112,7 +122,7 @@ public class BinaryBar extends CardView {
     });
   }
 
-  public void setActive(View view, boolean active) {
+  private void setActive(View view, boolean active) {
     int iconColor = active ? R.color.colorAccent : R.color.textNormal;
     int textColor = active? R.color.textDark : R.color.textNormal;
     ImageView icon = (ImageView) view.findViewById(R.id.icon);
@@ -126,5 +136,9 @@ public class BinaryBar extends CardView {
     ((ImageView) view.findViewById(R.id.icon)).setImageDrawable(drawable(item.iconResourceId));
     ((TextView) view.findViewById(R.id.text)).setText(string(item.textResourceId));
     return view;
+  }
+
+  public void click(@Position int position) {
+    (position == LEFT ? mLeftView : mRightView).performClick();
   }
 }
