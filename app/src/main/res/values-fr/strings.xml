@@ -14,7 +14,6 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="app_name" translatable="false">Tribble</string>
     <string name="archive">Favoris</string>
     <string name="deck">Accueil</string>
     <string name="error_loading">Désolé, une erreur est survenue.</string>
